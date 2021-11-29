@@ -13,7 +13,7 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        //
+        $query = Voucher::all();
     }
 
     /**

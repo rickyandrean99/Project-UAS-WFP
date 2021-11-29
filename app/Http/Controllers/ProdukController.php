@@ -13,7 +13,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        //
+        $query = Produk::all();
     }
 
     /**
