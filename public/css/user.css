@@ -1,0 +1,19 @@
+@font-face { font-family: sansitta-bold; src: url('../fonts/Sansita-Bold.ttf'); }
+
+* { font-family: 'sansitta-bold', sans-serif; color: #313131 !important; }
+
+/* Desktop navigation menu */
+.navigation-desktop { display: block; font-size: 19px; }
+.nav-gradient { transition: opacity 0.5s ease-out; z-index: -1; background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%); opacity: 0; transform: rotate(180deg); }
+
+/* Mobile sidebar navigation menu */
+.btn-nav-mobile { display: none; }
+.btn-hamburger { background: linear-gradient(136.7deg, #F15201 0%, #FEDB04 138.21%); border: 0; outline: 0; }
+.hamburger-icon { width: 20px; height: 3px; background: white; border: 2px solid white; border-radius: 2px; }
+.navigation-mobile { height: 100%; width: 0; position: fixed; background: url('../images/nav_mobile.jpg'); background-size: cover; z-index: 100; top: 0;  right: 0; overflow-x: hidden; transition: 0.5s }
+.navigation-mobile a { text-decoration: none; font-size: 16px; transition: 0.3s; }
+
+@media screen and (max-width: 992px) {
+    .navigation-desktop { display: none; }
+    .btn-nav-mobile { display: block !important; z-index: 50 }
+}
