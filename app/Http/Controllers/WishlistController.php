@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Produk;
 
 class WishlistController extends Controller
 {
@@ -13,7 +14,8 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        //
+        $query = User::find(1);
+        $produk = $query->produks;
     }
 
     /**
