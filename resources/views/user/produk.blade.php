@@ -5,5 +5,5 @@
 <link rel="stylesheet" href="{{ asset('css/produk.css') }}">
 
 @section('content')
-    {{ $kategori }}
+    
 @endsection

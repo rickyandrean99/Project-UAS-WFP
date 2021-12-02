@@ -36,6 +36,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Active</th>
+                                    <th></th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +49,17 @@
                                         @else
                                             <td>Suspend</td>
                                         @endif
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Reset Password</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$pegawai->id}})'>Activasion</a></li>
+                                                </ul>
+                                            </div>  
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -58,47 +70,9 @@
         </div>
     </div>
 
-    <!-- modal add  -->
-<!-- <div class="modal fade" id="createForm" tabindex="-1" role="basic" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-            <h4 class="modal-title">DISCLAIMER</h4>
-        </div>
-        <div class="modal-body">
-            <form action="{{route('pegawai.store')}}" method='post'>
-                   @csrf
-                    <div class='form-group'>
-                        <label for="">Nama Pegawai</label>
-                        <input type="text" class='form-control' name='nmPegawai' pleaceholder="Masukan nama pegawai" require>
-                    </div>
-                    <div class='form-group'>
-                        <label for="">Email Pegawai</label>
-                        <input type="text" class='form-control' name='emailPegawai' pleaceholder="Masukan email pegawai" require>
-                    </div>
-                    <div class='form-group'>
-                        <label for="">Password Pegawai</label>
-                        <input type="password" class='form-control' name='passPegawai' pleaceholder="Masukan password pegawai" require>
-                    </div>
-                    <div class='form-group'>
-                        <label for="">Konfirmasi Password</label>
-                        <input type="password" class='form-control' name='konfirmasiPass' pleaceholder="Masukan password pegawai kembali" require>
-                    </div>
-                    <button type='submit' class='btn btn-primary'>Submit</button>
-               
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-default" >Save change</button>
-        </div>
-            </form>
-      </div>
-   </div>
-</div> -->
+
 
 <!-- modal add -->
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -135,5 +109,44 @@
   </div>
 </div>
 
+
+<!-- modal -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id='mdl-body'>
+        
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function suspend(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("pegawai.suspend")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                if(data.status=='ok'){
+                    $('#mdl-body').html('Aktivasi Pegawai berhasil diubah');
+                }
+                else{
+                    $('#mdl-body').html('Perubahan gagal, silahkan dicoba kembali');
+                }
+            }
+        }) 
+    }
+</script>
 </body>
 </html>

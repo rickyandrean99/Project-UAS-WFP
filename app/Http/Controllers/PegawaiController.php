@@ -102,4 +102,21 @@ class PegawaiController extends Controller
     {
         //
     }
+
+    public function suspend(Request $request){
+        $id = $request->get('id');
+        $pegawai = User::find($id);
+        if($pegawai->active == true){
+            $pegawai->active = FALSE;
+        }
+        else {
+            $pegawai->active = true;
+        }
+        
+        $pegawai->save();
+
+        return response()->json(array(
+            'status'=>'ok'
+        ),200);
+    }
 }

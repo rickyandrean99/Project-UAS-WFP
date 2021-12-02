@@ -44,8 +44,8 @@
                 @yield("content")
             </div>
 
-            <footer class="container-fluid p-0">
-                @yield("footer")
+            <footer class="container-fluid p-4 text-center text-white mt-4" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);">
+                © 2021 BukaLaptop All Right Reserved
             </footer>
         </div>
 

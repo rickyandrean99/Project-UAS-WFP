@@ -23,6 +23,9 @@ Route::get('/', 'BerandaController@index')->name('beranda');
 Route::get('/produk/kategori/{kategori}', 'ProdukController@tampilkanKategori');
 Route::get('/produk/brand/{brand}', 'ProdukController@tampilkanBrand');
 
+Route::post('/pegawai/suspend/','PegawaiController@suspend')->name('pegawai.suspend');
+
 // Authentication Routing
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+

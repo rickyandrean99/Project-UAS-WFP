@@ -2,8 +2,6 @@
 
 @section('title', 'Beranda')
 
-<link rel="stylesheet" href="{{ asset('css/beranda.css') }}">
-
 @section('content')
     <!-- Hero Section -->
     <div class="w-100 py-5 px-0 m-0" style="background: url('{{ asset('images/hero.jpg') }}'); height: 960px; background-size: cover;">
@@ -22,7 +20,7 @@
                         </ul>
                     </div>
                     <div class="mt-5">
-                        <a href="" class="btn pop-medium text-white w-50 btn-cta">Lihat Produk</a>
+                        <a href="#kategori" class="btn pop-medium text-white w-50" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);">Lihat Produk</a>
                     </div>
                 </div>
             </div>
@@ -30,19 +28,17 @@
     </div>
 
     <!-- Kategori Section -->
-    <div class="container p-5">
+    <div class="container p-5" id="kategori">
         <div class="h4 pop-semibold">Kategori Produk</div>
 
         <div class="row mt-5">
-            @php $arr_kategori = ["Laptop", "Aksesoris", "Spare Part"]; @endphp
-
-            @foreach($arr_kategori as $ak)
+            @foreach($kategori as $k)
                 <div class="pe-4" style="width: 20%;">
-                    <a href="/produk/kategori/{{ str_replace(' ', '-', strtolower($ak)) }}" class="text-decoration-none">
+                    <a href="/produk/kategori/{{ str_replace(' ', '-', strtolower($k->nama)) }}" class="text-decoration-none">
                         <div class="card w-100 align-items-center" style="box-shadow: 2px 2px 7px rgba(0,0,0,0.2)">
-                            <img src="{{ asset('images/'.$ak.'.png') }}" alt="" class="w-50 mx-5 my-4">
+                            <img src="{{ asset('images/'.$k->nama.'.png') }}" alt="" class="w-50 mx-5 my-4">
                             <div class="card-body m-0 px-3 py-4 text-center">
-                                <div class="card-title h6 pop-medium">{{ $ak }}</div>
+                                <div class="card-title h6 pop-medium">{{ $k->nama }}</div>
                             </div>
                         </div>
                     </a>
@@ -56,15 +52,33 @@
         <div class="h4 pop-semibold">Kategori Brand</div>
 
         <div class="row mt-5">
-            @php $arr_brand = ["Asus", "Acer", "MSI", "Corsair"]; @endphp
-
-            @foreach($arr_brand as $ab)
+            @foreach($brand as $b)
                 <div class="pe-4" style="width: 20%; ">
-                    <a href="/produk/brand/{{ str_replace(' ', '-', strtolower($ab)) }}" class="text-decoration-none">
+                    <a href="/produk/brand/{{ str_replace(' ', '-', strtolower($b->nama)) }}" class="text-decoration-none">
                         <div class="card w-100 align-items-center" style="box-shadow: 2px 2px 7px rgba(0,0,0,0.2)">
-                            <img src="{{ asset('images/'.$ab.'.png') }}" alt="" class="w-50 mx-5 my-4">
+                            <img src="{{ asset('images/logo/'.$b->nama.'.png') }}" alt="" class="w-50 mx-5 my-4">
                             <div class="card-body m-0 px-3 py-4 text-center">
-                                <div class="card-title h6 pop-medium">{{ $ab }}</div>
+                                <div class="card-title h6 pop-medium">{{ $b->nama }}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Product Teratas Section -->
+    <div class="container p-5">
+        <div class="h4 pop-semibold">Produk Teratas</div>
+
+        <div class="row mt-5">
+            @foreach($produk as $p)
+                <div class="pe-4" style="width: 20%; ">
+                    <a href="/produk/{{ str_replace(' ', '-', strtolower($p->nama)) }}" class="text-decoration-none">
+                        <div class="card w-100 align-items-center" style="box-shadow: 2px 2px 7px rgba(0,0,0,0.2);">
+                            <img src="{{ asset('images/produk/'.$p->foto) }}" alt="" class="w-50 mx-5 my-4">
+                            <div class="card-body m-0 px-3 py-4 text-center" style="height: 100px">
+                                <div class="card-title h6 pop-medium">{{ $p->nama }}</div>
                             </div>
                         </div>
                     </a>

@@ -16,7 +16,7 @@ class ProdukSeeder extends Seeder
             'foto' => 'a412fa.jfif',
             'harga' => 10350000,
             'spesifikasi' => 'Ukuran Layar: 14";Resolusi Layar: 1920 x 1080 pixels;Teknologi Layar: LED;Sistem Operasi: Windows 10 Home;Kecepatan CPU: 3.9GHz;CPU: Intel Core i5;Daya Tahan Baterai: 2.5h;Backlit Keyboard: Tidak;Layar Sentuh: Tidak;Fingerprint Reader: Tidak;Berat: 1.5Kg;Material Bodi: Aluminium;Tipe Penyimpanan: SSD;Penyimpanan: 512GB;Graphic Card: Intel UHD Graphic 620;HDMI: Ya;USB 3.0: Ya;USB Type-C: Ya; Handphone Jack: Ya;VGA: Tidak;Display Port: Tidak;Thunderbolt: Tidak;USB: Ya;Card Reader: Ya;DVI: Tidak;Resolusi Webcam: HD;RAM: 4GB;Tipe RAM: DDR4;Kecepatan RAM: 2400MHz;Garansi: 1 Tahun;Wi-Fi Standard: 802.11a/b/g/n/ac',
-            'like' => 0,
+            'like' => 30,
             'kategoris_id' => 1,
             'brands_id' => 1
         ]);
@@ -46,7 +46,7 @@ class ProdukSeeder extends Seeder
             'foto' => 'nitro5.png',
             'harga' => 19450000,
             'spesifikasi' => 'Ukuran Layar: 15.6";Resolusi Layar: 1920 x 1080 pixels;Teknologi Layar: LED;Sistem Operasi: Windows 10 Home;Kecepatan CPU: 2.5GHz;CPU: Intel Core i7;Daya Tahan Baterai: 8h;Backlit Keyboard: Tidak;Layar Sentuh: Tidak;Fingerprint Reader: Tidak;Berat: 2.48kg;Material Bodi: Plastik;Tipe Penyimpanan: SSD;Penyimpanan: 1000GB;Graphic Card: NVIDIA;HDMI: Ya;USB 3.0: Ya;USB Type-C: Ya;Headphone Jack: Ya;VGA: Tidak;Thunderbolt: Tidak;USB: Ya;Card Reader: Ya;DVI: Tidak;Display Port: Tidak;Resolusi Webcam: HD;RAM: 8GB;Tipe RAM: DDR4;Kecepatan RAM: 2666MHz;Warna: Hitam;Garansi: 1 Tahun;Wi-Fi Standard: 802.11 ac',
-            'like' => 0,
+            'like' => 98,
             'kategoris_id' => 1,
             'brands_id' => 2
         ]);
@@ -86,7 +86,7 @@ class ProdukSeeder extends Seeder
             'foto' => 'katanagf66.jpg',
             'harga' => 15000000,
             'spesifikasi' => 'Ukuran Layar: 15.6";Resolusi Layar: 1920 x 1080 pixels;Teknologi Layar: IPS;Sistem Operasi: Windows 10 Home;Kecepatan CPU: 2.4GHz;CPU: Intel Core i7;Daya Tahan Baterai: 3h;Backlit Keyboard: Ya;Layar Sentuh: Tidak;Fingerprint Reader: Tidak;Berat: 2.25kg;Material Bodi: Plastik;Tipe Penyimpanan: SSD;Penyimpanan: 512GB;Graphic Card: NVIDIA GeForce RTX 3060;HDMI: Ya;USB 3.0: Ya;USB Type-C: Ya;Headphone Jack: Ya;VGA: Tidak;Thunderbolt: Ya;USB: Ya;Card Reader: Tidak;DVI: Ya;Display Port: Ya;Resolusi Webcam: HD;RAM: 4GB;Tipe RAM: GDDR4;Kecepatan RAM: 3200MHz;Warnga: Hitam;Garansi: 2 Tahun;Wi-Fi Standard: 802.11 ax',
-            'like' => 0,
+            'like' => 151,
             'kategoris_id' => 1,
             'brands_id' => 3
         ]);
@@ -157,7 +157,7 @@ class ProdukSeeder extends Seeder
             'foto' => 'k70.jpg',
             'harga' => 2400000,
             'spesifikasi' => 'Keyboard Warranty 2 Year;Weight 0.9;Lighting RGB;Keyboard Layout NA;USB Polling Rate Up to 8,000Hz with AXON;Keyswitches CHERRY® MX SPEED;Matrix 87 Keys;Connectivity Wired;Adjustable Height Yes;Additional colored and textured keycaps FPS / MOBA;Media Controls YN Yes;Keyboard Type Size K70;Keyboard Product Family K70;Keyboard Rollover Full Key (NKRO) with 100% Anti-Ghosting;Form Factor Tenkeyless;Wired Connectivity USB 3.0 or 3.1 Type-A;On-Board Memory 8MB;Number Onboard profiles Up to 50;WIN Lock Dedicated Hotkey;Media Control Dedicated Hotkeys, Volume Roller;Palm Rest No;Keyboard CUE Software Supported in iCUE;Cable Type Detachable;Keyboard Cable Material Braided',
-            'like' => 0,
+            'like' => 123,
             'kategoris_id' => 2,
             'brands_id' => 4
         ]);
@@ -238,7 +238,7 @@ class ProdukSeeder extends Seeder
             'foto' => 'cv750.png',
             'harga' => 1140000,
             'spesifikasi' => 'Weight 1.9;Adjustable Single/Multi 12V Rail No;ATX Connector 1;ATX12V Version v2.31;Continuous power W 750 Watts;Fan bearing technology Sleeve;Fan size mm 120mm;MTBF hours 100,000 hours;Multi-GPU ready No;Warranty 3 Year;PSU Form Factor ATX;Zero RPM Mode No;EPS12V Connector 2;Floppy Connector 1;Modular No;PCIe Connector 2;SATA Connector 7',
-            'like' => 0,
+            'like' => 66,
             'kategoris_id' => 3,
             'brands_id' => 4
         ]);
