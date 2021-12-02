@@ -1,6 +1,13 @@
-@font-face { font-family: sansitta-bold; src: url('../fonts/Sansita-Bold.ttf'); }
+@font-face { font-family: pop-bold; src: url('../fonts/Poppins-Bold.ttf'); }
+@font-face { font-family: pop-semibold; src: url('../fonts/Poppins-SemiBold.ttf'); }
+@font-face { font-family: pop-medium; src: url('../fonts/Poppins-Medium.ttf'); }
+@font-face { font-family: pop-regular; src: url('../fonts/Poppins-Regular.ttf'); }
 
-* { font-family: 'sansitta-bold', sans-serif; color: #313131 !important; }
+* { font-family: 'pop-regular', sans-serif; color: #313131 !important; box-sizing: border-box !important; }
+.pop-bold { font-family: pop-bold; }
+.pop-semibold { font-family: pop-semibold; }
+.pop-medium { font-family: pop-medium; }
+.pop-regular { font-family: pop-regular; }
 
 /* Desktop navigation menu */
 .navigation-desktop { display: block; font-size: 19px; }

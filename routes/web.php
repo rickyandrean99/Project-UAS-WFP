@@ -13,4 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// Resource Routing
+Route::resource('produk','ProdukController');
+Route::resource('pegawai','PegawaiController');
+
+// Custom Routing
 Route::get('/', 'BerandaController@index')->name('beranda');
+Route::get('/produk/kategori/{kategori}', 'ProdukController@tampilkanKategori');
+Route::get('/produk/brand/{brand}', 'ProdukController@tampilkanBrand');
+
+// Authentication Routing
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');

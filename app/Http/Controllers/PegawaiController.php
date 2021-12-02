@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
@@ -13,7 +16,8 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        $query = User::where('status', 'pegawai')->get();
+        $query = User::where('sebagai', 'pegawai')->get();
+        return view('admin.pegawai',compact('query'));
     }
 
     /**
@@ -34,7 +38,24 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pass = $request->get('passPegawai');
+        $Repass = $request->get('konfirmasiPass');
+
+        if($pass == $Repass){
+            $data = new User();
+            $data->name         = $request->get('nmPegawai'); 
+            $data->email        = $request->get('emailPegawai'); 
+            $data->password     = Hash::make($pass);
+            $data->created_at   = Carbon::now();
+            $data->updated_at   = Carbon::now();
+            $data->sebagai      = "pegawai";
+            $data->active       = true;
+            $data->save();
+            return redirect()->route('pegawai.index')->with('status','Data pegawai berhasil ditambahkan');
+        }
+        else{
+            return redirect()->route('pegawai.index')->with('error','Data pegawai gagal ditambahkan, password tidak sama');
+        }
     }
 
     /**
