@@ -173,14 +173,25 @@ class ProdukSeeder extends Seeder
         ]);
 
         DB::table('produks')->insert([
-            'nama' => 'Virtuoso RGB WIRELESS High-Fidelity Gaming Headset - Putih',
-            'foto' => 'virtuoso.jpg',
-            'harga' => 1700000,
-            'spesifikasi' => 'Audio Product Headset;Audio CUE Software Yes;Surround Sound Yes;Detachable Microphone;Headphone Frequency Response 20Hz - 40 kHz;Headphone Battery Life Up to 20 hours;Headphone Sensitivity 109dB (+/-3dB);Headphone Wireless Range Up to 60ft;Impedance 32 Ohms @ 2.5 kHz;Headphone Type Wireless;Headphone Connector USB Wireless Receiver;Headphone Drivers 50mm;Cable Length N/A;Model VIRTUOSO Wireless;Color Carbon;Audio 7.1 Surround;Lighting RGB;Platform PC, PS4;Microphone Impedance 2.0k Ohms;Microphone Type Omnidirectional;Microphone Frequency Response 100Hz to 10kHz;Microphone Sensitivity -40dB (+/-3dB)',
+            'nama' => 'CORSAIR iCUE H170i ELITE CAPELLIX Liquid CPU Cooler',
+            'foto' => 'cooler.jpg',
+            'harga' => 3300000,
+            'spesifikasi' => 'Cooling Warranty 5 Year;Cold Plate Material Copper;Radiator Material Aluminum;PWM Yes;CORSAIR iCUE Compatibility Yes;Fan Dimensions 140mm x 25mm;Fan Speed 2000 RPM;Weight 1.95;Number of Fans 3;Cooling Socket Support Intel 115x/1200;Intel 2011/2066;AMD AM3/AM2;AMD AM4;AMD sTR4/sTRX4;Lighting RGB;Fan Model ML RGB Series;Noise Level 10 - 37 dBA',
             'like' => 0,
             'kategoris_id' => 2,
             'brands_id' => 4
         ]);
+
+        DB::table('produks')->insert([
+            'nama' => 'HS60 HAPTIC Stereo Gaming Headset with Haptic Bass',
+            'foto' => 'hs60.jfif',
+            'harga' => 1700000,
+            'spesifikasi' => 'Audio Product Headset;Audio CUE Software Yes;Surround Sound No;Detachable Microphone Yes;Rechargble Battery No;Headphone Frequency Response 20Hz - 20 kHz;Headphone Battery Life N/A;Headphone Sensitivity 111dB (+/-3dB);Headphone Wireless Range N/A;Impedance 32k Ohms @ 1 kHz;Headphone Type Wired, USB;Headphone Connector USB;Headphone Drivers 50mm;Audio Accessories Yes;Controls No;Audio System Requirements 1.8m;Cable Length 1.8m;Model HS60 HAPTIC;Color Camo;Audio Stereo;Lighting None;Platform PC;Microphone Impedance 2.0k Ohms;Microphone Type Unidirectional noise cancelling;Microphone Frequency Response 100Hz to 10kHz;Microphone Sensitivity -40dB (+/-3dB)',
+            'like' => 0,
+            'kategoris_id' => 2,
+            'brands_id' => 4
+        ]);
+
 
         DB::table('produks')->insert([
             'nama' => 'CORSAIR VENGEANCE RGB RS 16GB DDR4 DRAM 3600MHz CMG16GX4M2D3600C18',
