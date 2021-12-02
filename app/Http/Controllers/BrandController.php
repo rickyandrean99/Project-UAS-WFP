@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Brand;
 
 class BrandController extends Controller
 {
@@ -14,6 +15,7 @@ class BrandController extends Controller
     public function index()
     {
         $query = Brand::all();
+        return view('pegawai.brand',compact('query'));
     }
 
     /**
@@ -34,7 +36,10 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data           = new Brand();
+        $data->nama     = $request->get('nmBrand');
+        $data->save();
+        return redirect()->route('brand.index')->with('status','Data brand berhasil ditambahkan'); 
     }
 
     /**

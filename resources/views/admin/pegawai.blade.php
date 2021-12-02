@@ -45,9 +45,9 @@
                                         <td>{{$pegawai->name}}</td>
                                         <td>{{$pegawai->email}}</td>
                                         @if($pegawai->active == true)
-                                            <td>active</td>
+                                            <td id="active-{{$pegawai->id}}">active</td>
                                         @else
-                                            <td>Suspend</td>
+                                            <td id="active-{{$pegawai->id}}">Suspend</td>
                                         @endif
                                         <td>
                                             <div class="btn-group">
@@ -55,8 +55,8 @@
                                                     Action
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Reset Password</a></li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$pegawai->id}})'>Activasion</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getId({{$pegawai->id}})" href="#">Reset Password</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$pegawai->id}})'>Activasion</a></li>
                                                 </ul>
                                             </div>  
                                         </td>
@@ -111,7 +111,7 @@
 
 
 <!-- modal -->
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -124,6 +124,34 @@
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal reset password -->
+<div class="modal fade" id="reset-pass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id='mdl-body'>
+          <input type="hidden" value='' id="perawai-id">
+        <div class='form-group'>
+            <label for="">Password Baru</label>
+            <input type="password" class='form-control' id="passBaru" name='passPegawai' pleaceholder="Masukan password baru pegawai" >
+        </div>
+        <div class='form-group'>
+            <label for="">Konfirmasi Password</label>
+            <input type="password" class='form-control' id="konfirmasiPass" name='konfirmasiPass' pleaceholder="Masukan password pegawai kembali" >
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='resetPass()'>Submit</button>
+      </div>
+      
     </div>
   </div>
 </div>
@@ -144,8 +172,34 @@
                 else{
                     $('#mdl-body').html('Perubahan gagal, silahkan dicoba kembali');
                 }
+                $('#active-'+id).html(data.act);
             }
-        }) 
+        }); 
+    }
+
+    function getId(id){
+        $('#perawai-id').val(id);
+        $('#passBaru').val("");
+        $('#konfirmasiPass').val("");
+    }
+
+    function resetPass(){
+        var id = $('#perawai-id').val();
+        var pass = $('#passBaru').val();
+        var rePass = $('#konfirmasiPass').val();
+        $.ajax({
+            type:'POST',
+            url:'{{route("pegawai.reset")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id,
+                'pass': pass,
+                'rePass': rePass
+            },
+            success:function(data){
+                $('#mdl-body').html(data.msg);
+            }
+        });
     }
 </script>
 </body>

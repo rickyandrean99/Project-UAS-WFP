@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 // Resource Routing
 Route::resource('produk','ProdukController');
 Route::resource('pegawai','PegawaiController');
+Route::resource('brand','BrandController');
 
 // Custom Routing
 Route::get('/', 'BerandaController@index')->name('beranda');
@@ -24,8 +25,13 @@ Route::get('/produk/kategori/{kategori}', 'ProdukController@tampilkanKategori');
 Route::get('/produk/brand/{brand}', 'ProdukController@tampilkanBrand');
 
 Route::post('/pegawai/suspend/','PegawaiController@suspend')->name('pegawai.suspend');
+Route::post('/pegawai/reset/','PegawaiController@resetPass')->name('pegawai.reset');
 
 // Authentication Routing
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

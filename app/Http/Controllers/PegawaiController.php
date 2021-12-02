@@ -40,6 +40,7 @@ class PegawaiController extends Controller
     {
         $pass = $request->get('passPegawai');
         $Repass = $request->get('konfirmasiPass');
+        
 
         if($pass == $Repass){
             $data = new User();
@@ -105,18 +106,42 @@ class PegawaiController extends Controller
 
     public function suspend(Request $request){
         $id = $request->get('id');
+        $active = "";
         $pegawai = User::find($id);
         if($pegawai->active == true){
             $pegawai->active = FALSE;
+            $active = "Suspend";
         }
         else {
             $pegawai->active = true;
+            $active = "active";
         }
         
-        $pegawai->save();
+        
 
         return response()->json(array(
-            'status'=>'ok'
+            'status'=>'ok',
+            'act' => $active
+        ),200);
+    }
+
+    public function resetPass(Request $request){
+        $id = $request->get('id');
+        $pass = $request->get('pass');
+        $rePass = $request->get('rePass');
+        $msg = "";
+        if($pass == $rePass){
+            $pegawai = User::find($id);
+            $pegawai->password = Hash::make($pass);
+            $pegawai->save();
+            $msg = "Password pegawai berhasil diubah";
+        }
+        else{
+            $msg = "Password pegawai gagal diubah, password tidak sama";
+        }
+        return response()->json(array(
+            'status'=>'ok',
+            'msg' => $msg
         ),200);
     }
 }
