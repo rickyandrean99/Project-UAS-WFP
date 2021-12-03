@@ -20,6 +20,7 @@ class CreateProduksTable extends Migration
             $table->bigInteger('harga');
             $table->longText('spesifikasi');
             $table->integer('like');
+            $table->timestamps();
         });
     }
 

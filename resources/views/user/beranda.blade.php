@@ -74,7 +74,7 @@
         <div class="row mt-5">
             @foreach($produk as $p)
                 <div class="pe-4" style="width: 20%; ">
-                    <a href="/produk/{{ str_replace(' ', '-', strtolower($p->nama)) }}" class="text-decoration-none">
+                    <a href="/produk/{{ $p->id }}" class="text-decoration-none">
                         <div class="card w-100 align-items-center" style="box-shadow: 2px 2px 7px rgba(0,0,0,0.2);">
                             <img src="{{ asset('images/produk/'.$p->foto) }}" alt="" class="w-50 mx-5 my-4">
                             <div class="card-body m-0 px-3 py-4 text-center" style="height: 100px">
@@ -86,4 +86,20 @@
             @endforeach
         </div>
     </div>
+
+    <script>
+        $(document).ready(_=> {
+            $(window).scroll(_=>{
+                if ($(window).scrollTop() > 100) {
+                    $('.nav-gradient').css({"opacity": "1"})
+                    $('.nav-link').removeClass("text-dark")
+                    $('.nav-link').addClass("text-white")
+                } else {
+                    $('.nav-gradient').css({"opacity": "0"})
+                    $('.nav-link').removeClass("text-white")
+                    $('.nav-link').addClass("text-dark")
+                } 
+            })
+        })
+    </script>
 @endsection

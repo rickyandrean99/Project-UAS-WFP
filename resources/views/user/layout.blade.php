@@ -48,28 +48,5 @@
                 © 2021 BukaLaptop All Right Reserved
             </footer>
         </div>
-
-        <!-- Javascript -->
-        <script>
-            // Toogle/hide mobile navigation
-            const openNav = _ => document.querySelector(".navigation-mobile").style.width = "60%"
-            const closeNav = _ => document.querySelector(".navigation-mobile").style.width = "0"
-
-            // Fill navigation bar for desktop view
-            $(document).ready(_=> {
-                $(window).scroll(_=>{
-                    if ($(window).scrollTop() > 100) {
-                        $('.nav-gradient').css({"opacity": "1"})
-                        $('.nav-link').removeClass("text-dark")
-                        $('.nav-link').addClass("text-white")
-                    } else {
-                        $('.nav-gradient').css({"opacity": "0"})
-                        $('.nav-link').removeClass("text-white")
-                        $('.nav-link').addClass("text-dark")
-                    } 
-                })
-            })
-
-        </script>
     </body>
 </html>

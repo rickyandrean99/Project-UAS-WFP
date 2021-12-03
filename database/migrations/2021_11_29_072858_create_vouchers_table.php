@@ -17,6 +17,7 @@ class CreateVouchersTable extends Migration
             $table->id();
             $table->string('kode');
             $table->double('discount');
+            $table->timestamps();
         });
     }
 

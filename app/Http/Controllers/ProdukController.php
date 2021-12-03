@@ -53,7 +53,10 @@ class ProdukController extends Controller
      */
     public function show($id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->spesifikasi = explode(";", $produk->spesifikasi);
+
+        return view('user.detailproduk', compact('produk'));
     }
 
     /**

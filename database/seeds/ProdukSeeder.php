@@ -43,7 +43,7 @@ class ProdukSeeder extends Seeder
 
         DB::table('produks')->insert([
             'nama' => 'Acer Nitro 5',
-            'foto' => 'nitro5.png',
+            'foto' => 'nitro5.jfif',
             'harga' => 19450000,
             'spesifikasi' => 'Ukuran Layar: 15.6";Resolusi Layar: 1920 x 1080 pixels;Teknologi Layar: LED;Sistem Operasi: Windows 10 Home;Kecepatan CPU: 2.5GHz;CPU: Intel Core i7;Daya Tahan Baterai: 8h;Backlit Keyboard: Tidak;Layar Sentuh: Tidak;Fingerprint Reader: Tidak;Berat: 2.48kg;Material Bodi: Plastik;Tipe Penyimpanan: SSD;Penyimpanan: 1000GB;Graphic Card: NVIDIA;HDMI: Ya;USB 3.0: Ya;USB Type-C: Ya;Headphone Jack: Ya;VGA: Tidak;Thunderbolt: Tidak;USB: Ya;Card Reader: Ya;DVI: Tidak;Display Port: Tidak;Resolusi Webcam: HD;RAM: 8GB;Tipe RAM: DDR4;Kecepatan RAM: 2666MHz;Warna: Hitam;Garansi: 1 Tahun;Wi-Fi Standard: 802.11 ac',
             'like' => 98,
@@ -124,7 +124,7 @@ class ProdukSeeder extends Seeder
 
         DB::table('produks')->insert([
             'nama' => 'CORSAIR K100 RGB Optical-Mechanical Gaming Keyboard - Midnight Gold',
-            'foto' => 'k100.jpg',
+            'foto' => 'k100.png',
             'harga' => 3700000,
             'spesifikasi' => 'Keyboard Warranty 2 Year;Weight 1.25 kg;Lighting RGB;Keyboard Layout NA;Macro Keys 6;USB Polling Rate Up to 8,000Hz with AXON;Keyswitches CORSAIR OPX Optical-Mechanical;USB Pass-Through Port USB 2.0 Type-A;Matrix 110 Keys;Connectivity Wired;Adjustable Height Yes;Additional colored and textured keycaps Black arrow keycaps;Media Controls YN Yes;Keyboard Type Size K100;Keyboard Product Family K100;Keyboard Rollover Full Key (NKRO) with 100% Anti-Ghosting;Form Factor Extended with macro keys;Wired Connectivity 2 x USB 3.0 or 3.1 Type-A;On-Board Memory 8MB;Number Onboard profiles Up to 200 depending on complexity;WIN Lock Dedicated Hotkey;Media Control Dedicated Hotkeys, Volume Roller, iCUE Control Wheel;Palm Rest Magnetic detachable, cushioned leatherette;Keyboard CUE Software Supported in iCUE;Cable Type Braided;Intergated Touchpad 471mm x 167mm x 39mm',
             'like' => 0,
@@ -245,7 +245,7 @@ class ProdukSeeder extends Seeder
 
         DB::table('produks')->insert([
             'nama' => 'CORSAIR Force Series Gen.4 PCIe MP600 2TB NVMe M.2 SSD',
-            'foto' => 'mp600gen4.jpg',
+            'foto' => 'mp600gen4.jfif',
             'harga' => 5760000,
             'spesifikasi' => 'SSD Unformatted Capacity 2TB;SSD Smart Support Yes;Weight 0.034kg;SSD Interface PCIe Gen 4.0 x4;SSD Max Sequential Read CDM Up to 4,950MB/s;SSD Max Sequential Write CDM Up to 4,250MB/s;Max Random Write QD32 IOMeter Up to 600k IOPS;Max Random Read QD32 IOMeter Up to 680k IOPS;Power Consumption active 6.5W Average;Power Consumption Inactive 1.1W;Form Factor M.2 2280;Dimensions 80mm x 23mm x 15mm;Application Consumer Client;Weight 0.034;NAND Technology 3D TLC NAND;Voltage 3.3V, +/- 5%;Endurance 3,600 TBW;TBW 3600;MTBF 1,700,000 Hours;DEVSLP PS4 < 1.65mW;Encryption AES 256-bit Encryption;Storage Temperature -40°C to +85°C;SSD Operating Temperature 0°C to +70°C;SSD Shock 1500 G;Storage Humidity 93% RH (40° C);Operating Humidity 90% RH (40° C);Vibration 20Hz~80Hz/1.52mm, 80Hz~2000Hz/20G',
             'like' => 0,

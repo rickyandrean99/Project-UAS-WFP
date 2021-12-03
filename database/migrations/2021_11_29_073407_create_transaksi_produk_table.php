@@ -16,6 +16,7 @@ class CreateTransaksiProdukTable extends Migration
         Schema::create('transaksi_produk', function (Blueprint $table) {
             $table->integer('kuantitas');
             $table->bigInteger('harga');
+            $table->timestamps();
         });
     }
 

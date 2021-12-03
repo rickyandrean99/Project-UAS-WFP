@@ -15,6 +15,7 @@ class CreateUserWishlistTable extends Migration
     {
         Schema::create('user_wishlist', function (Blueprint $table) {
             $table->boolean('wishlist');
+            $table->timestamps();
         });
     }
 

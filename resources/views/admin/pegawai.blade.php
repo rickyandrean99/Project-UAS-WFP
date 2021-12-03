@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('admin.layout')
+
+
+
+@section('title')
     <title>Pegawai</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="container-fluid">
+@endsection
+
+@section('content')
+<div class="container">
+    <div class="container-fluid">
         @if(session('status'))
         <div class='alert alert-success'>
             {{session('status')}}
@@ -50,8 +46,8 @@
                                             <td id="active-{{$pegawai->id}}">Suspend</td>
                                         @endif
                                         <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-primary dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                                     Action
                                                 </button>
                                                 <ul class="dropdown-menu">
@@ -127,6 +123,7 @@
     </div>
   </div>
 </div>
+@endsection
 
 <!-- modal reset password -->
 <div class="modal fade" id="reset-pass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,6 +155,8 @@
 
 <script>
     function suspend(id){
+
+        console.log('dar');
         $.ajax({
             type:'POST',
             url:'{{route("pegawai.suspend")}}',
@@ -202,5 +201,4 @@
         });
     }
 </script>
-</body>
-</html>
+@endsection
