@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pegawai</title>
+    <title>Brand</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -50,7 +50,7 @@
                                                     Action
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass"  href="#">Edit</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getData($brand->id)"  href="#">Edit</a></li>
                                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$brand->id}})'>Delete</a></li>
                                                 </ul>
                                             </div>  
@@ -98,7 +98,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Pemberitahuan</h5>
+        <h5 class="modal-title" id="mdl-header">Pemberitahuan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id='mdl-body'>
@@ -116,7 +116,19 @@
 
 <script>
 
-
+    function getData(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("brand.data")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                
+            }
+        }); 
+    }
 
 </script>
 </body>

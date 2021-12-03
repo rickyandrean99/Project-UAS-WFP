@@ -1,7 +1,5 @@
 @extends('admin.layout')
 
-
-
 @section('title')
     <title>Pegawai</title>
 @endsection
@@ -41,7 +39,7 @@
                                         <td>{{$pegawai->name}}</td>
                                         <td>{{$pegawai->email}}</td>
                                         @if($pegawai->active == true)
-                                            <td id="active-{{$pegawai->id}}">active</td>
+                                            <td id="active-{{$pegawai->id}}">Active</td>
                                         @else
                                             <td id="active-{{$pegawai->id}}">Suspend</td>
                                         @endif
@@ -52,7 +50,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getId({{$pegawai->id}})" href="#">Reset Password</a></li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$pegawai->id}})'>Activasion</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='notifActv({{$pegawai->id}})'>Activation</a></li>
                                                 </ul>
                                             </div>  
                                         </td>
@@ -97,8 +95,8 @@
                     </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-default" >Save change</button>
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-default" data-bs-dismiss="modal">Save change</button>
       </div>
       </form>
     </div>
@@ -117,13 +115,12 @@
       <div class="modal-body" id='mdl-body'>
         
       </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div class="modal-footer" id="mdl-footer">
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
-@endsection
 
 <!-- modal reset password -->
 <div class="modal fade" id="reset-pass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,18 +142,26 @@
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='resetPass()'>Submit</button>
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='resetPass()'>Submit</button>
       </div>
       
     </div>
   </div>
 </div>
+@endsection
 
+@section('ajaxquery')
 <script>
-    function suspend(id){
 
-        console.log('dar');
+    function notifActv(id){
+        $('#mdl-body').html();
+        $('#mdl-footer').html();
+        $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');
+
+    }
+
+    function suspend(id){
         $.ajax({
             type:'POST',
             url:'{{route("pegawai.suspend")}}',
@@ -165,6 +170,7 @@
                 'id': id
             },
             success:function(data){
+                $('#mdl-body').html('');
                 if(data.status=='ok'){
                     $('#mdl-body').html('Aktivasi Pegawai berhasil diubah');
                 }
@@ -196,6 +202,7 @@
                 'rePass': rePass
             },
             success:function(data){
+                $('#mdl-body').html('');
                 $('#mdl-body').html(data.msg);
             }
         });
