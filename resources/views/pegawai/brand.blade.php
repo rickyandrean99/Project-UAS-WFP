@@ -40,12 +40,12 @@
                                     <td>{{$brand->foto}}</td>
                                     <td>{{$brand->nama}}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Action
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                                    Action
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getData($brand->id)"  href="#">Edit</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$brand->id}})"  href="#">Edit</a></li>
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$brand->id}})'>Delete</a></li>
                                             </ul>
                                         </div>  
@@ -79,7 +79,7 @@
                     </div>
                     <div>
                         <label for="">Foto Brand</label>
-                        <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onclick="addImg()">
+                        <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onChange="addImg(event)">
                     </div>
                     <div >
                         <img id="img" src="" alt="">
@@ -106,7 +106,7 @@
       <div class="modal-body" id='mdl-body'>
         
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id='mdl-footer'>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -116,12 +116,34 @@
 
 @section('ajaxquery')
     <script>
-        function addImg(){ 
-            var inputFile = document.getElementById('upload-image');
+        function addImg(event){ 
+            var file = event.target.files[0];
             var reader = new FileReader();
-            reader.onload = ((e) => $('#img').attr('src','${e.target.result}'));
-            reader.readAsDataURL(inputFile.files[i]);
-            alert('dor');
+            if(file == undefined || file.length == 0) return;
+            reader.onload = function(e) {
+                $('.img').attr("src", e.target.result);
+            } 
+            
+            reader.readAsDataURL(file);
+            
         }
+
+        function getData(id){
+            $.ajax({
+            type:'POST',
+            url:'{{route("brand.data")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#mdl-header').html('Update Brand');
+                $('#mdl-body').html(data.msg);
+                $('#mdl-footer').html(``);
+            }
+            }); 
+        }
+
+       
     </script>
 @endsection

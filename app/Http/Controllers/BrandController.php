@@ -38,8 +38,18 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+        $nama = $request->get('nmBrand');
+        $nama_file = '';
+        if($request->hasFile('ftBrand')){
+            $foto = $request->file("ftBrand");
+            $ext =$foto->getClientOriginalExtension();
+            $nama_file = $request->get('nmBrand').'.'.$ext;
+            $foto->move('images/logo',$nama_file);
+        }
+
         $data           = new Brand();
-        $data->nama     = $request->get('nmBrand');
+        $data->nama     = $nama;
+        $data->foto     = $nama_file;
         $data->save();
         return redirect()->route('brand.index')->with('status','Data brand berhasil ditambahkan'); 
     }
@@ -73,9 +83,21 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Brand $brand)
     {
-        //
+        $nama = $request->get('nmBrand');
+        $hidenFoto = $request->get('hidden-foto');
+        $nama_file = $request->get('hidden-foto');
+        if($request->hasFile('ftBrand')){
+            $foto = $request->file("ftBrand");
+            $ext =$foto->getClientOriginalExtension();
+            $nama_file = $request->get('nmBrand').'.'.$ext;
+            $foto->move('images/logo',$nama_file);
+        }
+        $brand->nama = $nama;
+        $brand->foto = $nama_file;
+        $brand->save();
+        return redirect()->route('brand.index')->with('status','Data brand berhasil diubah');
     }
 
     /**
@@ -96,4 +118,14 @@ class BrandController extends Controller
 
         return view('user.produk', compact('produk'));
     }
+
+    public function getData(Request $request){
+        $id = $request->get('id');
+        $data = Brand::find($id);
+        return response()->json(array(
+            'msg'=> view('pegawai.brandEdit',compact('data'))->render()
+        ),200);
+    }
+
+
 }
