@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Brand;
+use App\Produk;
 
 class BrandController extends Controller
 {
@@ -15,6 +16,7 @@ class BrandController extends Controller
     public function index()
     {
         $query = Brand::all();
+        
         return view('pegawai.brand',compact('query'));
     }
 
@@ -85,5 +87,13 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function tampilkanBrand($brand) {
+        $brand = ucwords(str_replace('-', ' ', $brand));
+        $id_brand = Brand::where('nama', $brand)->get()[0]->id;
+        $produk = Produk::where('brands_id', $id_brand)->paginate(10);
+
+        return view('user.produk', compact('produk'));
     }
 }

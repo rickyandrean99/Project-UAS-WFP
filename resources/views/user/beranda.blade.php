@@ -29,7 +29,7 @@
 
     <!-- Kategori Section -->
     <div class="container p-5" id="kategori">
-        <div class="h4 pop-semibold">Kategori Produk</div>
+        <div class="h4 pop-semibold mt-5">Kategori Produk</div>
 
         <div class="row mt-5">
             @foreach($kategori as $k)

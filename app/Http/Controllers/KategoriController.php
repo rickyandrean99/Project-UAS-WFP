@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Kategori;
+use App\Produk;
 
 class KategoriController extends Controller
 {
@@ -80,5 +82,13 @@ class KategoriController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function tampilkanKategori($kategori) {
+        $kategori = ucwords(str_replace('-', ' ', $kategori));
+        $id_kategori = Kategori::where('nama', $kategori)->get()[0]->id;
+        $produk = Produk::where('kategoris_id', $id_kategori)->paginate(10);
+
+        return view('user.produk', compact('produk'));
     }
 }

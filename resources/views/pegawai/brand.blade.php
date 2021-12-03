@@ -1,69 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('pegawai.layout')
+
+@section('title')
     <title>Brand</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="container-fluid">
-        @if(session('status'))
-        <div class='alert alert-success'>
-            {{session('status')}}
+@endsection
+
+@section('content')
+<div class="container">
+    <div class="container-fluid">
+    @if(session('status'))
+    <div class='alert alert-success'>
+        {{session('status')}}
+    </div>
+    @endif
+    @if(session('error'))
+        <div class='alert alert-danger'>
+            {{session('error')}}
         </div>
-        @endif
-        @if(session('error'))
-            <div class='alert alert-danger'>
-                {{session('error')}}
+    @endif
+        <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Brand</div>
+        <div class="row">
+            <div class="col-md-10">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Brand</button>
             </div>
-        @endif
-            <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Brand</div>
-            <div class="row">
-                <div class="col-md-10">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Brand</button>
-                </div>
-                <div class='card'>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
+            <div class='card'>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th></th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($query as $brand)
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Nama</th>
-                                    <th></th>  
+                                    <td>{{$brand->id}}</td>
+                                    <td>{{$brand->foto}}</td>
+                                    <td>{{$brand->nama}}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getData($brand->id)"  href="#">Edit</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$brand->id}})'>Delete</a></li>
+                                            </ul>
+                                        </div>  
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($query as $brand)
-                                    <tr>
-                                        <td>{{$brand->id}}</td>
-                                        <td>{{$brand->nama}}</td>
-                                        
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Action
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getData($brand->id)"  href="#">Edit</a></li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$brand->id}})'>Delete</a></li>
-                                                </ul>
-                                            </div>  
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
@@ -81,6 +76,13 @@
                     <div class='form-group'>
                         <label for="">Nama brand</label>
                         <input type="text" class='form-control' name='nmBrand' pleaceholder="Masukan nama brand" require>
+                    </div>
+                    <div>
+                        <label for="">Foto Brand</label>
+                        <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onclick="addImg()">
+                    </div>
+                    <div >
+                        <img id="img" src="" alt="">
                     </div>
       </div>
       <div class="modal-footer">
@@ -110,26 +112,16 @@
     </div>
   </div>
 </div>
+@endsection
 
-
-
-
-<script>
-
-    function getData(id){
-        $.ajax({
-            type:'POST',
-            url:'{{route("brand.data")}}',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success:function(data){
-                
-            }
-        }); 
-    }
-
-</script>
-</body>
-</html>
+@section('ajaxquery')
+    <script>
+        function addImg(){ 
+            var inputFile = document.getElementById('upload-image');
+            var reader = new FileReader();
+            reader.onload = ((e) => $('#img').attr('src','${e.target.result}'));
+            reader.readAsDataURL(inputFile.files[i]);
+            alert('dor');
+        }
+    </script>
+@endsection

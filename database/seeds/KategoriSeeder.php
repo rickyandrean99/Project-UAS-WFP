@@ -12,15 +12,18 @@ class KategoriSeeder extends Seeder
     public function run()
     {
         DB::table('kategoris')->insert([
-            'nama' => 'Laptop'
+            'nama' => 'Laptop',
+            'foto' => 'Laptop.png'
         ]);
 
         DB::table('kategoris')->insert([
-            'nama' => 'Accessories'
+            'nama' => 'Aksesoris',
+            'foto' => 'Aksesoris.png'
         ]);
 
         DB::table('kategoris')->insert([
-            'nama' => 'Spare Parts'
+            'nama' => 'Spare Part',
+            'foto' => 'Spare Part.png'
         ]);
     }
 }

@@ -14,7 +14,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::all();
+        // $produk = Produk::all()->paginate(10);
+        $produk = Produk::paginate(10);
 
         // Disini buat if else
         // jika admin return view adminproduct
@@ -93,19 +94,7 @@ class ProdukController extends Controller
         //
     }
 
-    public function tampilkanKategori($kategori) {
-        $kategori = ucwords(str_replace('-', ' ', $kategori));
-
-        // Buat syntax untuk ambil data dengan kategori yang sesuai
-
-        return view('user.produk', compact('kategori'));
-    }
-
-    public function tampilkanBrand($brand) {
-        $brand = ucwords(str_replace('-', ' ', $brand));
-
-        // Buat syntax untuk ambil data dengan brand yang sesuai
-
-        return view('user.produk', compact('brand'));
+    public function bandingProduk() {
+        return view('user.perbandingan');
     }
 }

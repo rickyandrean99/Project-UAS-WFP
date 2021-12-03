@@ -12,19 +12,23 @@ class BrandSeeder extends Seeder
     public function run()
     {
         DB::table('brands')->insert([
-            'nama' => 'ASUS'
+            'nama' => 'ASUS',
+            'foto' => 'ASUS.png'
         ]);
 
         DB::table('brands')->insert([
-            'nama' => 'Acer'
+            'nama' => 'Acer',
+            'foto' => 'Acer.png'
         ]);
 
         DB::table('brands')->insert([
-            'nama' => 'MSI'
+            'nama' => 'MSI',
+            'foto' => 'MSI.png'
         ]);
 
         DB::table('brands')->insert([
-            'nama' => 'Corsair'
+            'nama' => 'Corsair',
+            'foto' => 'Corsair.png'
         ]);
     }
 }

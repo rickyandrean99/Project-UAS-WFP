@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('pegawai.layout')
 
 @section('title')
     <title>Pegawai</title>
@@ -155,10 +155,9 @@
 <script>
 
     function notifActv(id){
-        $('#mdl-body').html();
-        $('#mdl-footer').html();
         $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');
-
+        $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='suspend(`+id+`)'>Yes</button>`);
     }
 
     function suspend(id){
@@ -171,12 +170,14 @@
             },
             success:function(data){
                 $('#mdl-body').html('');
+                $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> ');
                 if(data.status=='ok'){
                     $('#mdl-body').html('Aktivasi Pegawai berhasil diubah');
                 }
                 else{
                     $('#mdl-body').html('Perubahan gagal, silahkan dicoba kembali');
                 }
+                $('#modalInfo').modal('show');
                 $('#active-'+id).html(data.act);
             }
         }); 

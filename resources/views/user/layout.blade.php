@@ -20,17 +20,17 @@
                     
                     <div class="collapse navbar-collapse mt-0 position-absolute" style="right: 0">
                         <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="#">Beranda</a></li>
-                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="#">Produk</a></li>
-                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="#">Bandingkan</a></li>
+                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/">Beranda</a></li>
+                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/produk">Produk</a></li>
+                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/banding">Bandingkan</a></li>
                             <li class="nav-item dropdown me-5 py-2">
                                 <a class="nav-link text-dark pop-medium dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Ricky Andrean
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item pop-medium" href="#">Wishlist</a></li>
-                                    <li><a class="dropdown-item pop-medium" href="#">Keranjang</a></li>
-                                    <li><a class="dropdown-item pop-medium" href="#">Riwayat</a></li>
+                                    <li><a class="dropdown-item pop-medium" href="/wishlist">Wishlist</a></li>
+                                    <li><a class="dropdown-item pop-medium" href="/keranjang">Keranjang</a></li>
+                                    <li><a class="dropdown-item pop-medium" href="/riwayat">Riwayat</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item pop-medium" href="#">Logout</a></li>
                                 </ul>

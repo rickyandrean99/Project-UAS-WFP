@@ -65,18 +65,13 @@
                             <label for='roles-row' class='col-md-4 col-form-label text-md-right'>Peran</label>
                         
                             <div class='col-md-6'>
-                                <input type="radio" id='owner' name='sebagai' value='owner'>
-                                <label for='owner'>Owner</label>
+                                <input type="radio" id='owner' name='sebagai' value='admin'>
+                                <label for='owner'>Admin</label>
                                 
                                 <br>
 
                                 <input type="radio" id='pegawai' name='sebagai' value='pegawai'>
                                 <label for="pegawai">Pegawai</label>
-
-                                <br>
-
-                                <input type="radio" id='member' name='sebagai' value='member'>
-                                <label for="member">Member</label>
                             </div>
                         </div>
 

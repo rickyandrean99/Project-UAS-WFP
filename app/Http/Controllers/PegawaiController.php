@@ -114,9 +114,9 @@ class PegawaiController extends Controller
         }
         else {
             $pegawai->active = true;
-            $active = "active";
+            $active = "Active";
         }
-        
+        $pegawai->save();
         
 
         return response()->json(array(

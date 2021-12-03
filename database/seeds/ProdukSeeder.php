@@ -205,7 +205,7 @@ class ProdukSeeder extends Seeder
 
         DB::table('produks')->insert([
             'nama' => 'CORSAIR VENGEANCE RGB RS 16GB DDR4 DRAM 3200MHz CMG16GX4M1E3200C16',
-            'foto' => 'CMG16GX4M1E3200C16.jpg',
+            'foto' => 'CMG16GX4M1E3200C16.jfif',
             'harga' => 1270000,
             'spesifikasi' => 'Fan Included No;Memory Series VENGEANCE RGB RS;Memory Type DDR4;Memory Size 16GB;Tested Latency 16-20-20-38;Tested Voltage 1.35;Tested Speed 3200;LED Lighting RGB;Single Zone / Multi-Zone Lighting Dynamic Multi-Zone;SPD Latency 15-15-15-36;SPD Speed 2133MHz;SPD Voltage 1.2V;Speed Rating PC4-25600 (3200MHz);Compatibility Intel 300Series,Intel 400 Series,Intel 500 Series,AMD 300 Series,AMD 400 Series,AMD 500 Series;Heat Spreader Anodized Aluminum;Package Memory Format DIMM;Performance Profile XMP 2.0;Package Memory Pin 288',
             'like' => 0,
