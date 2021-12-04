@@ -28,6 +28,8 @@ Route::get('/banding', 'ProdukController@bandingProduk');
 Route::post('/pegawai/suspend/','PegawaiController@suspend')->name('pegawai.suspend');
 Route::post('/pegawai/reset/','PegawaiController@resetPass')->name('pegawai.reset');
 Route::post('/brand/data',"BrandController@getData")->name('brand.data');
+Route::post('/brand/UpdateData','BrandController@updateData')->name('brand.updateBrand');
+Route::post('/brand/deletes','BrandController@deletData')->name('brand.dltBrand');
 
 
 

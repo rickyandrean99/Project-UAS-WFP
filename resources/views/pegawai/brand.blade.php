@@ -35,10 +35,10 @@
                         </thead>
                         <tbody>
                             @foreach ($query as $brand)
-                                <tr>
-                                    <td>{{$brand->id}}</td>
-                                    <td>{{$brand->foto}}</td>
-                                    <td>{{$brand->nama}}</td>
+                                <tr id="tr-{{$brand->id}}">
+                                    <td >{{$brand->id}}</td>
+                                    <td id="foto-{{$brand->id}}">{{$brand->foto}}</td>
+                                    <td id="nama-{{$brand->id}}">{{$brand->nama}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -46,7 +46,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$brand->id}})"  href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='if(confirm("Yakin untuk merubah activasi pegawai ini??")) suspend({{$brand->id}})'>Delete</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$brand->id}})'>Delete</a></li>
                                             </ul>
                                         </div>  
                                     </td>
@@ -71,7 +71,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{route('brand.store')}}" method='post'>
+        <form action="{{route('brand.store')}}" method='post' enctype="multipart/form-data">
                    @csrf
                     <div class='form-group'>
                         <label for="">Nama brand</label>
@@ -79,15 +79,15 @@
                     </div>
                     <div>
                         <label for="">Foto Brand</label>
-                        <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onChange="addImg(event)">
+                        <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onChange="addImg(event)" >
                     </div>
                     <div >
-                        <img id="img" src="" alt="">
+                        <img class="img" src="" alt="">
                     </div>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-default" >Save change</button>
+          <button type="submit" class="btn btn-default" >Save</button>
       </div>
       </form>
     </div>
@@ -139,9 +139,73 @@
             success:function(data){
                 $('#mdl-header').html('Update Brand');
                 $('#mdl-body').html(data.msg);
-                $('#mdl-footer').html(``);
+                $('#mdl-footer').html('');
+                // $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                // <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='update()'>Submit</button>`);
             }
             }); 
+        }
+
+        function update(){
+            alert('dor');
+            var id = $('#edit-id').val();
+            var nama = $('#edit-name').val();
+            var foto = $('#edit-foto').val();
+
+            $.ajax({
+            type:'POST',
+            url:'{{route("brand.updateBrand")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id,
+                'nama':nama,
+                'foto': foto
+            },
+            success:function(data){
+                $('#mdl-header').html('Pemberitahuan');
+                if(data.status == 'ok'){
+                    $('#mdl-body').html("Data brand berhasil di update");
+                    $('#nama-'+id).html(data.nama);
+                    if(data.foto != ""){
+                        $('#foto-'+id).html(data.foto);
+                    }
+                }
+                else{
+                    $('#mdl-body').html("Data brand gagal di update, silahkan mencoba kembali");
+                }
+                $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`);
+            }
+            }); 
+
+        }
+
+        function deletes(id){
+            $('#mdl-header').html('Pemberitahuan');
+            $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');
+            $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltBrand(`+id+`)'>Yes</button>`);
+        }
+
+        function dltBrand(id){
+            $.ajax({
+            type:'POST',
+            url:'{{route("brand.dltBrand")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#mdl-body').html('');
+                $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> ');
+                if(data.status=='ok'){
+                    $('#mdl-body').html('Brand berhasil dihapus');
+                    $('#tr-'+id).remove();
+                }
+                else{
+                    $('#mdl-body').html('Brand gagal dihapus, silahkan dicoba kembali');
+                }
+            }
+        }); 
         }
 
        

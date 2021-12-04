@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Brand;
 use App\Produk;
+use File;
 
 class BrandController extends Controller
 {
@@ -44,6 +45,7 @@ class BrandController extends Controller
             $foto = $request->file("ftBrand");
             $ext =$foto->getClientOriginalExtension();
             $nama_file = $request->get('nmBrand').'.'.$ext;
+           // dd($nama_file);
             $foto->move('images/logo',$nama_file);
         }
 
@@ -86,16 +88,17 @@ class BrandController extends Controller
     public function update(Request $request, Brand $brand)
     {
         $nama = $request->get('nmBrand');
-        $hidenFoto = $request->get('hidden-foto');
-        $nama_file = $request->get('hidden-foto');
+        $nama_file = '';
+        $hiddenFoto = $request->get('hidden-foto');
         if($request->hasFile('ftBrand')){
             $foto = $request->file("ftBrand");
             $ext =$foto->getClientOriginalExtension();
             $nama_file = $request->get('nmBrand').'.'.$ext;
+            File::delete(public_path('images/logo/'.$hiddenFoto));
             $foto->move('images/logo',$nama_file);
+            $brand->foto = $nama_file;
         }
         $brand->nama = $nama;
-        $brand->foto = $nama_file;
         $brand->save();
         return redirect()->route('brand.index')->with('status','Data brand berhasil diubah');
     }
@@ -127,5 +130,38 @@ class BrandController extends Controller
         ),200);
     }
 
+    public function updateData(Request $request){
+        $id = $request->get('id');
+        $nama = $request->get('nama');
+        $foto = $request->get('foto');
+        $nama_file = '';
+        $brand = Brand::find($id);
+
+        if($foto != ""){
+            $ext =$foto->getClientOriginalExtension();
+            $nama_file = $nama.'.'.$ext;
+            File::delete(public_path('images/logo'.$nama_file));
+            $foto->move('images/logo',$nama_file);
+            $brand->foto = $nama_file;
+            
+        }
+        $brand->nama = $nama;
+        $brand->save();
+
+        return response()->json(array(
+            'status'=>'ok',
+            'nama' => $nama,
+            'foto' => $nama_file
+        ),200);
+    }
+
+    public function deletData(Request $request){
+        $id = $request->get('id');
+        $brand = Brand::find($id);
+        $brand->delete();
+        return response()->json(array(
+            'status'=>'ok'
+        ),200);
+    }
 
 }
