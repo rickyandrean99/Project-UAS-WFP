@@ -17,6 +17,15 @@
                 {{session('error')}}
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
             <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Pegawai</div>
             <div class="row">
                 <div class="col-md-10">

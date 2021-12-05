@@ -38,6 +38,15 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'passPegawai' => ['required', 'string','min:6']
+        ],
+        [
+            'passPegawai.min'   => 'Data pegawai gagal ditambahkan, password minimal 6 karakter'
+        ]
+        );
+
         $pass = $request->get('passPegawai');
         $Repass = $request->get('konfirmasiPass');
         
@@ -130,15 +139,21 @@ class PegawaiController extends Controller
         $pass = $request->get('pass');
         $rePass = $request->get('rePass');
         $msg = "";
-        if($pass == $rePass){
-            $pegawai = User::find($id);
-            $pegawai->password = Hash::make($pass);
-            $pegawai->save();
-            $msg = "Password pegawai berhasil diubah";
+        if(strlen($pass) >= 6){
+            if($pass == $rePass){
+                $pegawai = User::find($id);
+                $pegawai->password = Hash::make($pass);
+                $pegawai->save();
+                $msg = "Password pegawai berhasil diubah";
+            }
+            else{
+                $msg = "Password pegawai gagal diubah, password tidak sama";
+            }
         }
         else{
-            $msg = "Password pegawai gagal diubah, password tidak sama";
+            $msg = "Password pegawai gagal diubah, password minimal 6 karakter";
         }
+        
         return response()->json(array(
             'status'=>'ok',
             'msg' => $msg

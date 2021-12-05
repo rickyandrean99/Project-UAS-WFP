@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('pegawai','PegawaiController');
     Route::resource('brand','BrandController');
     Route::view('/dashboard', 'pegawai.dashboard');
+    Route::resource('kategori','KategoriController');
 });
 
 Route::get('/', 'BerandaController@index')->name('beranda');
@@ -30,6 +31,9 @@ Route::post('/pegawai/reset/','PegawaiController@resetPass')->name('pegawai.rese
 Route::post('/brand/data',"BrandController@getData")->name('brand.data');
 Route::post('/brand/UpdateData','BrandController@updateData')->name('brand.updateBrand');
 Route::post('/brand/deletes','BrandController@deletData')->name('brand.dltBrand');
+
+Route::post('/kategori/data',"KategoriController@getData")->name('kategori.data');
+Route::post('/kategori/deletes','KategoriController@deletData')->name('kategori.dltKategori');
 
 
 

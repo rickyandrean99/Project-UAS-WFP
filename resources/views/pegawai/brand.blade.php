@@ -82,7 +82,7 @@
                         <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onChange="addImg(event)" >
                     </div>
                     <div >
-                        <img class="img" src="" alt="">
+                        <img class="img" src="" alt="" width = 200px height = 200px>
                     </div>
       </div>
       <div class="modal-footer">
@@ -181,7 +181,7 @@
 
         function deletes(id){
             $('#mdl-header').html('Pemberitahuan');
-            $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');
+            $('#mdl-body').html('Apakah yakin menghapus brand ini?');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltBrand(`+id+`)'>Yes</button>`);
         }
