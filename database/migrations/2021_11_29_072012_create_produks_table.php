@@ -19,8 +19,8 @@ class CreateProduksTable extends Migration
             $table->string('foto');
             $table->bigInteger('harga');
             $table->longText('spesifikasi');
-            $table->integer('like');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

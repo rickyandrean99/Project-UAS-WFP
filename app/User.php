@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    public $timestamp = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','sebagai','active',
     ];
 
     /**
@@ -38,6 +39,6 @@ class User extends Authenticatable
     ];
 
     public function produks() {
-        return $this->belongsToMany('App\Produk', 'user_wishlist', 'users_id', 'produks_id')->withPivot('wishlist');
+        return $this->belongsToMany('App\Produk', 'user_wishlist', 'users_id', 'produks_id');
     }
 }

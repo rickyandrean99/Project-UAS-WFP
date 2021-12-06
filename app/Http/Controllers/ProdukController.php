@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Produk;
 use App\Brand;
 use App\Kategori;
+use App\User;
 use Auth;
+use File;
 
 class ProdukController extends Controller
 {
@@ -17,22 +19,18 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        // $produk = Produk::all()->paginate(10);
         $produk = Produk::paginate(10);
         $brand = Brand::all();
         $kategori = Kategori::all();
 
-        // Disini buat if else
-        // jika admin return view adminproduct
-        // jika user return view user product.
-        // sementara aku return view ke user
-        $userRole = Auth::user()->sebagai;
-        if($userRole == 'pegawai' || $userRole =='admin'){
+        $userRole = null;
+        if (isset(Auth::user()->sebagai)) 
+            $userRole = Auth::user()->sebagai;
+
+        if ($userRole == 'pegawai' || $userRole =='admin')
             return view('pegawai.produk', compact('produk','brand','kategori'));
-        }
-        else{
+        else
             return view('user.produk', compact('produk'));
-        }
     }
 
     /**
@@ -53,6 +51,8 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('cekpegawai');
+
         $nama = $request->get('nmProduk');
         $nama_file = '';
         if($request->hasFile('ftProduk')){
@@ -63,16 +63,15 @@ class ProdukController extends Controller
             $foto->move('images/produk',$nama_file);
         }
 
-        $data                   = new Produk();
-        $data->nama             = $nama;
-        $data->foto             = $nama_file;
-        $data->harga            = $request->get('hrgProduk');
-        $data->spesifikasi      = $request->get('spek');
-        $data->like             = '0';
-        $data->kategoris_id     = $request->get('kategori');
-        $data->brands_id        = $request->get('brand');
+        $data = new Produk();
+        $data->nama = $nama;
+        $data->foto = $nama_file;
+        $data->harga = $request->get('hrgProduk');
+        $data->spesifikasi = $request->get('spek');
+        $data->kategoris_id = $request->get('kategori');
+        $data->brands_id = $request->get('brand');
 
-        $data->save();  
+        $data->save();
         return redirect()->route('produk.index')->with('status','Data produk berhasil ditambahkan'); 
     }
 
@@ -86,8 +85,23 @@ class ProdukController extends Controller
     {
         $produk = Produk::find($id);
         $produk->spesifikasi = explode(";", $produk->spesifikasi);
+        $wishlist = count($produk->users);
 
-        return view('user.detailproduk', compact('produk'));
+        if (Auth::user()) {
+            $user_wishlist = User::find(Auth::user()->id)->produks;
+            $wish_status = false;
+
+            foreach ($user_wishlist as $uw) {
+                if ($uw->id == $id) {
+                    $wish_status = true;
+                    break;
+                }
+            }
+        } else {
+            $wish_status = false;
+        }
+        
+        return view('user.detailproduk', compact('produk', 'wishlist', 'wish_status'));
     }
 
     /**
@@ -98,7 +112,7 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -108,9 +122,30 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Produk $produk)
     {
-        //
+        $this->authorize('cekpegawai');
+
+        $nama = $request->get('nmProduk');
+        $nama_file = '';
+        $hiddenFoto = $request->get('hidden-foto');
+        if($request->hasFile('ftProduk')){
+            $foto = $request->file("ftProduk");
+            $ext =$foto->getClientOriginalExtension();
+            $nama_file = $nama.'.'.$ext;
+            File::delete(public_path('images/produk/'.$hiddenFoto));
+            $foto->move('images/produk',$nama_file);
+            $produk->foto = $nama_file;
+        }
+        
+        $produk->nama = $nama;
+        $produk->harga = $request->get('hrgProduk');
+        $produk->spesifikasi = $request->get('spek');
+        $produk->kategoris_id = $request->get('kategori');
+        $produk->brands_id = $request->get('brand');
+
+        $produk->save();
+        return redirect()->route('produk.index')->with('status','Data produk berhasil diubah');
     }
 
     /**
@@ -125,6 +160,57 @@ class ProdukController extends Controller
     }
 
     public function bandingProduk() {
-        return view('user.perbandingan');
+        if(Auth::user())
+            return view('user.perbandingan');
+    }
+
+    public function getData(Request $request) {
+        $this->authorize('cekpegawai');
+
+        $id = $request->get('id');
+        $produk = Produk::find($id);
+        $brand = Brand::all();
+        $kategori = Kategori::all();
+        return response()->json(array(
+            'msg'=> view('pegawai.produkEdit',compact('produk','brand','kategori'))->render()
+        ),200);
+    }
+
+    public function perbandinganTipe(Request $request) {
+        $tipe = $request->get('tipe');
+        $produk = Kategori::find($tipe)->produks;
+
+        return response()->json(array(
+            'produk' => $produk
+        ),200); 
+    }
+
+    public function perbandinganProduk(Request $request) {
+        $produk = Produk::find($request->get("id"));
+
+        return response()->json(array(
+            'produk' => $produk
+        ),200);
+    }
+
+    public function deletData(Request $request){
+        $this->authorize('cekpegawai');
+        $id = $request->get('id');
+        $produk = Produk::find($id);
+        $produk->delete();
+        return response()->json(array(
+            'status'=>'ok'
+        ),200);
+    }
+
+    public function detail(Request $request){
+        $this->authorize('cekpegawai');
+        $id = $request->get('id');
+        $produk = Produk::find($id);
+        $produk->spesifikasi = explode(";", $produk->spesifikasi);
+        $wishlist = count($produk->users);
+        return response()->json(array(
+            'msg'=> view('pegawai.produkDetail',compact('produk','wishlist'))->render()
+        ),200);
     }
 }

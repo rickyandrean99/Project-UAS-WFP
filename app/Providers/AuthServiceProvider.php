@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('cekmember', 'App\Policies\AksesPolicy@cekmember');
+        Gate::define('cekadmin', 'App\Policies\AksesPolicy@cekadmin');
+        Gate::define('cekpegawai', 'App\Policies\AksesPolicy@cekpegawai');
     }
 }

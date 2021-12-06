@@ -18,6 +18,7 @@ class CreateKategorisTable extends Migration
             $table->string('nama');
             $table->string('foto');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

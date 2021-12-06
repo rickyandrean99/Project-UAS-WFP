@@ -59,7 +59,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getId({{$pegawai->id}})" href="#">Reset Password</a></li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='notifActv({{$pegawai->id}})'>Activation</a></li>
+                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='notifActv({{$pegawai->id}})' href="#">Activation</a></li>
                                                 </ul>
                                             </div>  
                                         </td>
@@ -162,6 +162,10 @@
 
 @section('ajaxquery')
 <script>
+    $(document).ready(function(){
+        $('.nav-item').removeClass('active');
+        $('#pegawai').addClass('active');
+    });
 
     function notifActv(id){
         $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');

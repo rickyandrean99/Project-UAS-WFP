@@ -40,7 +40,7 @@ class PegawaiController extends Controller
     {
 
         $request->validate([
-            'passPegawai' => ['required', 'string','min:6']
+            'passPegawai' => ['required', 'string','min:8']
         ],
         [
             'passPegawai.min'   => 'Data pegawai gagal ditambahkan, password minimal 6 karakter'
@@ -139,7 +139,7 @@ class PegawaiController extends Controller
         $pass = $request->get('pass');
         $rePass = $request->get('rePass');
         $msg = "";
-        if(strlen($pass) >= 6){
+        if(strlen($pass) >= 8){
             if($pass == $rePass){
                 $pegawai = User::find($id);
                 $pegawai->password = Hash::make($pass);

@@ -23,19 +23,23 @@
                             <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/">Beranda</a></li>
                             <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/produk">Produk</a></li>
                             <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/banding">Bandingkan</a></li>
+                            @if(Auth::user())
                             <li class="nav-item dropdown me-5 py-2">
-                                <a class="nav-link text-dark pop-medium dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ricky Andrean
+                                <a class="nav-link text-dark pop-medium dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">    
+                                    {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item pop-medium" href="/wishlist">Wishlist</a></li>
                                     <li><a class="dropdown-item pop-medium" href="/keranjang">Keranjang</a></li>
                                     <li><a class="dropdown-item pop-medium" href="/riwayat">Riwayat</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item pop-medium" href="#">Logout</a></li>
+                                    <li><a class="dropdown-item pop-medium" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a><form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form></li>
                                 </ul>
                             </li>
-                        </ul>
+                            @else
+                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/login">Login</a></li>
+                            @endif
+                        </ul> 
                     </div>
                 </div>
             </nav>

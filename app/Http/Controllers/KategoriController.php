@@ -38,6 +38,8 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('cekpegawai');
+
         $nama = $request->get('nmKategori');
         $nama_file = '';
         if($request->hasFile('ftKategori')){
@@ -48,9 +50,9 @@ class KategoriController extends Controller
             $foto->move('images',$nama_file);
         }
 
-        $data           = new Kategori();
-        $data->nama     = $nama;
-        $data->foto     = $nama_file;
+        $data = new Kategori();
+        $data->nama = $nama;
+        $data->foto = $nama_file;
         $data->save();
         return redirect()->route('kategori.index')->with('status','Data kategori berhasil ditambahkan'); 
     
@@ -87,6 +89,8 @@ class KategoriController extends Controller
      */
     public function update(Request $request, Kategori $kategori)
     {
+        $this->authorize('cekpegawai');
+
         $nama = $request->get('nmKategori');
         $nama_file = '';
         $hiddenFoto = $request->get('hidden-foto');
@@ -122,7 +126,9 @@ class KategoriController extends Controller
         return view('user.produk', compact('produk'));
     }
 
-    public function getData(Request $request){
+    public function getData(Request $request) {
+        $this->authorize('cekpegawai');
+
         $id = $request->get('id');
         $data = Kategori::find($id);
         return response()->json(array(
@@ -130,7 +136,9 @@ class KategoriController extends Controller
         ),200);
     }
 
-    public function deletData(Request $request){
+    public function deletData(Request $request) {
+        $this->authorize('cekpegawai');
+
         $id = $request->get('id');
         $kategori = Kategori::find($id);
         $kategori->delete();

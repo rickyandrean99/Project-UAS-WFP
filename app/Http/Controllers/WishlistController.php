@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Produk;
+use Auth;
 
 class WishlistController extends Controller
 {
@@ -82,5 +84,34 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addOrRemove(Request $request) {
+        $user = User::find(Auth::user()->id);
+        $user_wishlist = $user->produks;
+        $id_produk = $request->get('id');
+        $exist = false;
+
+        foreach ($user_wishlist as $uw) {
+            if ($uw->id == $id_produk) {
+                $exist = true;
+                break;
+            }
+        }
+
+        if ($exist) {
+            $user->produks()->detach($id_produk);
+            $result = "remove";
+            $amount = -1;
+        } else {
+            $user->produks()->attach($id_produk);
+            $result = "add";
+            $amount = 1;
+        }
+        
+        return response()->json(array(
+            'result' =>  $result,
+            'amount' => $amount
+        ), 200);
     }
 }

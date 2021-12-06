@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
+                        <input type="hidden" value='member' name='sebagai'>
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for='roles-row' class='col-md-4 col-form-label text-md-right'>Peran</label>
                         
                             <div class='col-md-6'>
@@ -72,8 +72,13 @@
 
                                 <input type="radio" id='pegawai' name='sebagai' value='pegawai'>
                                 <label for="pegawai">Pegawai</label>
+
+                                <br>
+
+                                <input type="radio" id='member' name='sebagai' value='member'>
+                                <label for="member">Member</label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

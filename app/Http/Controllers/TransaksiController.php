@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Transaksi;
 
 class TransaksiController extends Controller
 {
@@ -13,7 +14,10 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $query = Transaksi::all();
+        $query = Transaksi::all()->orderBy('status', 'DESC')->get();
+        dd($query);
+
+
     }
 
     /**

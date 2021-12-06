@@ -11,7 +11,7 @@
             <input type="file" accept="image/*" name='ftKategori' class="form-control" id="add-img" onChange="addImg(event)" >
         </div>
         <div >
-            <img class="img" src="" alt="" width = 200px height = 200px>
+            <img class="img w-100" src="" alt="">
         </div>
 
         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>

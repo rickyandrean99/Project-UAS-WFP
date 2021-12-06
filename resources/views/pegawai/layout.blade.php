@@ -42,7 +42,7 @@
         <div class="wrapper ">
             <div class="sidebar" data-color="orange" data-background-color="white">
                 <div class="logo">
-                    Ini Logo
+                    <img src="{{ asset('images/logo.png') }}" alt="ini logo" class="rounded mx-auto d-block w-75">
                 </div>
 
                 <div class="sidebar-wrapper">
@@ -55,14 +55,16 @@
                         </li>
                     </ul>
 
-                    <ul class="nav">
-                        <li class="nav-item" id="pegawai">
-                            <a class="nav-link" href="{{ url('pegawai') }}">
-                                <i class="material-icons">manage_accounts</i>
-                                <p>Pegawai</p>
-                            </a>
-                        </li>
-                    </ul>
+                    @can('cekadmin')
+                        <ul class="nav">
+                            <li class="nav-item" id="pegawai">
+                                <a class="nav-link" href="{{ url('pegawai') }}">
+                                    <i class="material-icons">manage_accounts</i>
+                                    <p>Pegawai</p>
+                                </a>
+                            </li>
+                        </ul>
+                    @endcan
 
                     <ul class="nav">
                         <li class="nav-item active" id="brand">
@@ -75,7 +77,7 @@
 
                     <ul class="nav">
                         <li class="nav-item" id="kategori">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('kategori') }}">
                                 <i class="material-icons">list</i>
                                 <p>Kategori</p>
                             </a>
@@ -84,7 +86,7 @@
 
                     <ul class="nav">
                         <li class="nav-item" id="produk">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('produk') }}">
                                 <i class="material-icons">inventory</i>
                                 <p>Produk</p>
                             </a>
@@ -93,7 +95,7 @@
 
                     <ul class="nav">
                         <li class="nav-item" id="transaksi">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('transaksi') }}">
                                 <i class="material-icons">receipt</i>
                                 <p>Transaksi</p>
                             </a>
@@ -102,7 +104,7 @@
 
                     <ul class="nav">
                         <li class="nav-iteme" id="voucher">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ url('voucher') }}">
                                 <i class="material-icons">card_giftcard</i>
                                 <p>Voucher</p>
                             </a>
@@ -114,20 +116,12 @@
             <div class="main-panel">
                 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                     <div class="container-fluid">
-                        <div class="navbar-wrapper ml-3">
-                           <span class="h3 fw-bold siklus" style="display:none">Babak Semifinal Belum Dimulai</span>
-                           <span class="h3 fw-bold timer"></span>
-                        </div>
-
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                            <span class="navbar-toggler-icon icon-bar"></span>
-                        </button>
-
                         <div class="collapse navbar-collapse justify-content-end">
-                            <span class="h4 text-capitalize fw-bold mr-3">Admin</span>
+                            <span class="h4 text-capitalize fw-bold mr-3">
+                                @if(Auth::user())
+                                    {{ Auth::user()->name }}
+                                @endif
+                            </span>
                             <span class="h4 text-capitalize fw-bold mr-4 bg-primary p-2 pr-4 pl-4" style="border-radius: 20px"><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-light"> {{ __('Logout') }}</a></span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
                         </div>

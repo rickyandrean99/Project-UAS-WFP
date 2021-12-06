@@ -39,6 +39,8 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('cekpegawai');
+
         $nama = $request->get('nmBrand');
         $nama_file = '';
         if($request->hasFile('ftBrand')){
@@ -87,6 +89,8 @@ class BrandController extends Controller
      */
     public function update(Request $request, Brand $brand)
     {
+        $this->authorize('cekpegawai');
+
         $nama = $request->get('nmBrand');
         $nama_file = '';
         $hiddenFoto = $request->get('hidden-foto');
@@ -122,7 +126,9 @@ class BrandController extends Controller
         return view('user.produk', compact('produk'));
     }
 
-    public function getData(Request $request){
+    public function getData(Request $request) {
+        $this->authorize('cekpegawai');
+
         $id = $request->get('id');
         $data = Brand::find($id);
         return response()->json(array(
@@ -130,7 +136,9 @@ class BrandController extends Controller
         ),200);
     }
 
-    public function updateData(Request $request){
+    public function updateData(Request $request) {
+        $this->authorize('cekpegawai');
+
         $id = $request->get('id');
         $nama = $request->get('nama');
         $foto = $request->get('foto');
@@ -155,7 +163,9 @@ class BrandController extends Controller
         ),200);
     }
 
-    public function deletData(Request $request){
+    public function deletData(Request $request) {
+        $this->authorize('cekpegawai');
+
         $id = $request->get('id');
         $brand = Brand::find($id);
         $brand->delete();

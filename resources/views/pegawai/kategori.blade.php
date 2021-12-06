@@ -37,7 +37,7 @@
                             @foreach ($query as $kategori)
                                 <tr id="tr-{{$kategori->id}}">
                                     <td >{{$kategori->id}}</td>
-                                    <td id="foto-{{$kategori->id}}">{{$kategori->foto}}</td>
+                                    <td id="foto-{{$kategori->id}}"><img src="{{ asset('images/'.$kategori->foto.'') }}" alt="" class="w-100"></td>
                                     <td id="nama-{{$kategori->id}}">{{$kategori->nama}}</td>
                                     <td>
                                         <div class="dropdown">
@@ -45,8 +45,8 @@
                                                     Action
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$kategori->id}})"  href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$kategori->id}})'>Delete</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$kategori->id}})" href="#">Edit</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$kategori->id}})' href="#">Delete</a></li>
                                             </ul>
                                         </div>  
                                     </td>
@@ -82,7 +82,7 @@
                         <input type="file" accept="image/*" name='ftKategori' class="form-control" id="add-img" onChange="addImg(event)" >
                     </div>
                     <div >
-                        <img class="img" src="" alt="" width = 200px height = 200px>
+                        <img class="img w-100" src="" alt="">
                     </div>
       </div>
       <div class="modal-footer">
@@ -116,6 +116,11 @@
 
 @section('ajaxquery')
     <script>
+        $(document).ready(function(){
+            $('.nav-item').removeClass('active');
+            $('#kategori').addClass('active');
+        });
+
         function addImg(event){ 
             var file = event.target.files[0];
             var reader = new FileReader();
