@@ -4,11 +4,11 @@
 
 <style>
     .nav-gradient { opacity: 1 !important; }
-    .active > .page-link { background: #3BD744 !important; border: 0 !important; color: white !important }
+    .active > .page-link { background: #3BD744 !important; border: 0 !important; }
 </style>
 
 @section('content')
-    <div class="container pt-5 mt-5">
+    <div class="container pt-5 mt-5" style="min-height: 850px">
         <div class="h2 pop-semibold pt-4 mb-5 text-center">
             Daftar Wishlist
         </div>
@@ -26,6 +26,10 @@
                     </a>
                 </div>
             @endforeach
+
+            @if(count($produks) == 0)
+                <div class="h6 mt-5 text-center fst-italic pop-medium">Kamu belum menandai produk apapun</div>
+            @endif
         </div>
     </div>
 

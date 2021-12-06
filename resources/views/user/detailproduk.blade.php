@@ -39,7 +39,6 @@
                 </div>
                 
                 <div class="h5 pop-bold mt-4">
-                    
                     @if(Auth::user())
                         Rp {{ number_format($produk->harga,2,',','.') }}
                     @else
@@ -59,15 +58,36 @@
                 </div>
                 <div class="mt-5">
                     @if(Auth::user())
-                        <a href="#" class="btn btn-primary p-3 text-white border-0" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);">
-                            <img src="{{ asset('images/cart.png') }}" alt="cart" style="width: 25px" class="me-2">
-                            Masukkan Keranjang
-                        </a>
+                        <!-- ada pengecekan apakah ada di keranjang atau gak -->
+                        @if($cart_status)
+                            <a href="#" class="btn btn-primary p-3 border-0" id="btn-keranjang" style="background: linear-gradient(87.03deg, #BF5749 -16.34%, #E95743 65.69%, #F5635A 131.66%);" onclick="keranjang('hapus')">
+                                <img src="{{ asset('images/cart.png') }}" alt="cart" style="width: 25px" class="me-2">
+                                <span id="status-keranjang" class="text-white">Hapus dari keranjang</span>
+                            </a>
+                        @else
+                            <a href="#" class="btn btn-primary p-3 border-0" id="btn-keranjang" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);" onclick="keranjang('tambah')">
+                                <img src="{{ asset('images/cart.png') }}" alt="cart" style="width: 25px" class="me-2">
+                                <span id="status-keranjang" class="text-white">Masukkan keranjang</span>
+                            </a>
+                        @endif
                     @endif
                 </div>
             </div>
         </div>
         <div style="height: 150px"></div>
+    </div>
+
+    <div class="modal fade" id="modal-keranjang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close my-1 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="modal-text"></h6>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -94,6 +114,41 @@
                     
                     let amountNow = parseInt($('#jumlah_wishlist').text())
                     $('#jumlah_wishlist').text(amountNow + data.amount)
+                }
+            })
+        }
+
+        const keranjang = tipe => {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("keranjang.tambahhapus") }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id,
+                    'tipe': tipe,
+                    'jumlah': 1,
+                },
+                success: data => {
+                    if (data.result == "sukses") {
+                        if (tipe == "tambah") {
+                            $('#status-keranjang').text("Hapus dari keranjang")
+                            $('#btn-keranjang').attr('onclick', `keranjang('hapus')`)
+                            $('#btn-keranjang').css('background', `linear-gradient(87.03deg, #BF5749 -16.34%, #E95743 65.69%, #F5635A 131.66%)`)
+                            $('#modal-text').text("Berhasil menambahkan ke keranjang")
+                        } else if (tipe == "hapus") {
+                            $('#status-keranjang').text("Masukkan keranjang")
+                            $('#btn-keranjang').attr('onclick', `keranjang('tambah')`)
+                            $('#btn-keranjang').css('background', `linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%)`)
+                            $('#modal-text').text("Berhasil menghapus dari keranjang")
+                        }
+                    } else {
+                        if (tipe == "tambah")
+                            $('#modal-text').text("Gagal menambahkan ke keranjang")
+                        else if (tipe == "hapus")
+                            $('#modal-text').text("Gagal menghapus dari keranjang")
+                    }
+
+                    $('#modal-keranjang').modal("show")
                 }
             })
         }

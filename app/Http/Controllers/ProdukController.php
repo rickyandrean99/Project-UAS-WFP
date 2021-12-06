@@ -86,22 +86,24 @@ class ProdukController extends Controller
         $produk = Produk::find($id);
         $produk->spesifikasi = explode(";", $produk->spesifikasi);
         $wishlist = count($produk->users);
+        $wish_status = false;
+        $cart_status = false;
 
         if (Auth::user()) {
+            // cek wishlist
             $user_wishlist = User::find(Auth::user()->id)->produks;
-            $wish_status = false;
-
             foreach ($user_wishlist as $uw) {
                 if ($uw->id == $id) {
                     $wish_status = true;
                     break;
                 }
             }
-        } else {
-            $wish_status = false;
-        }
+
+            // cek keranjang
+            $cart_status = (isset(session()->get('keranjang')[$id]))? true : false;
+        } 
         
-        return view('user.detailproduk', compact('produk', 'wishlist', 'wish_status'));
+        return view('user.detailproduk', compact('produk', 'wishlist', 'wish_status', 'cart_status'));
     }
 
     /**
@@ -211,6 +213,43 @@ class ProdukController extends Controller
         $wishlist = count($produk->users);
         return response()->json(array(
             'msg'=> view('pegawai.produkDetail',compact('produk','wishlist'))->render()
+        ),200);
+    }
+
+    public function keranjang() {
+        return view("user.keranjang");
+    }
+
+    public function tambahHapusKeranjang(Request $request) {
+        $tipe = $request->get("tipe");
+        
+        if ($tipe == "tambah" || $tipe == "ubah" || $tipe == "hapus") {
+            $id = $request->get("id");
+            $jumlah = $request->get("jumlah");
+            $produk = Produk::find($id);
+            $keranjang = session()->get('keranjang');
+
+            if ($tipe == "tambah") {
+                $keranjang[$id] = [
+                    "nama" => $produk->nama,
+                    "foto" => $produk->foto,
+                    "harga" => $produk->harga,
+                    "kuantitas" => $jumlah,
+                ];
+            } else if ($tipe == "ubah") {
+                $keranjang[$id]['kuantitas'] = $jumlah;
+            } else if ($tipe == "hapus") {
+                unset($keranjang[$id]);
+            }
+
+            session()->put('keranjang', $keranjang);
+            return response()->json(array(
+                'result'=> 'sukses'
+            ),200);
+        } 
+
+        return response()->json(array(
+            'result'=> 'gagal'
         ),200);
     }
 }

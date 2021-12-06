@@ -13,14 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', 'BerandaController@index')->name('beranda');
+Route::get('/produk/kategori/{kategori}', 'KategoriController@tampilkanKategori');
+Route::get('/produk/brand/{brand}', 'BrandController@tampilkanBrand');
 Route::resource('produk','ProdukController');
 Route::resource('brand','BrandController');
 Route::resource('kategori','KategoriController');
 
 Route::middleware(['auth'])->group(function(){
-    Route::resource('transaksi','TransaksiController');
-    Route::resource('voucher','VoucherController');
-
+    // Route khusus administrator
     Route::middleware('can:cekadmin')->group(function(){
         Route::resource('pegawai','PegawaiController');
 
@@ -28,6 +29,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/pegawai/reset/','PegawaiController@resetPass')->name('pegawai.reset');
     });
 
+    // Route khusus pegawai dan administrator
     Route::middleware('can:cekpegawai')->group(function(){
         Route::view('/dashboard', 'pegawai.dashboard');
 
@@ -43,19 +45,20 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/produk/detail','ProdukController@detail')->name('produk.detail');
     });
 
-    Route::get('/banding', 'ProdukController@bandingProduk');
-    Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
+    // Route khusus akun yang sudah login
+    Route::resource('transaksi','TransaksiController');
+    Route::resource('voucher','VoucherController');
 
+    Route::get('/keranjang', 'ProdukController@keranjang')->name("keranjang.tambahhapus");
+    Route::post('/keranjang/tambahhapus', 'ProdukController@tambahHapusKeranjang')->name("keranjang.tambahhapus");
+
+    Route::get('/banding', 'ProdukController@bandingProduk');
+
+    Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
     Route::post('/produk/wishlist', 'WishlistController@addOrRemove')->name('produk.wishlist');
     Route::post('/produk/banding/tipe', 'ProdukController@perbandinganTipe')->name('produk.produkberdasarkantipe');
     Route::post('/produk/banding/produk', 'ProdukController@perbandinganProduk')->name('produk.detailberdasarkanproduk');
-});  
-
-Route::get('/', 'BerandaController@index')->name('beranda');
-Route::get('/produk/kategori/{kategori}', 'KategoriController@tampilkanKategori');
-Route::get('/produk/brand/{brand}', 'BrandController@tampilkanBrand');
-
-//route produk custom
+});
 
 // Authentication Routing
 Auth::routes();
