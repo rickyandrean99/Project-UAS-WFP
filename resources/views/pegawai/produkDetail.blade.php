@@ -11,14 +11,23 @@
                             <span id="jumlah_wishlist">{{ $wishlist }}</span> orang menandai produk ini
                         </div>
                     </div>
-
-                    
                 </div>
                 
                 <div class="h5 pop-bold mt-4">
                         Rp {{ number_format($produk->harga,2,',','.') }}
                 </div>
-
+                <div class="mt-5">
+                    <div class="h6 pop-semibold mb-3">Brand Produk :</div>
+                    <div class="row p-0 m-0">
+                       {{$produk->brand->nama}}
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div class="h6 pop-semibold mb-3">Kategori Produk :</div>
+                    <div class="row p-0 m-0">
+                       {{$produk->kategori->nama}}
+                    </div>
+                </div>
                 <div class="mt-5">
                     <div class="h6 pop-semibold mb-3">Spesifikasi Produk :</div>
                     <div class="row p-0 m-0">

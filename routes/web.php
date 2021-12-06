@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function(){
     });
 
     Route::get('/banding', 'ProdukController@bandingProduk');
+    Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
 
     Route::post('/produk/wishlist', 'WishlistController@addOrRemove')->name('produk.wishlist');
     Route::post('/produk/banding/tipe', 'ProdukController@perbandinganTipe')->name('produk.produkberdasarkantipe');

@@ -16,8 +16,10 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $query = User::find(1);
-        $produk = $query->produks;
+        $user = User::find(Auth::user()->id);
+        $produks = $user->produks;
+
+        return view('user.wishlist', compact('produks'));
     }
 
     /**

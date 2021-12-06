@@ -24,32 +24,29 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Foto</th>
-                                <th>Nama</th>
-                                <th></th>  
+                                <th>Member</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>  
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($query as $kategori)
-                                <tr id="tr-{{$kategori->id}}">
-                                    <td >{{$kategori->id}}</td>
-                                    <td id="foto-{{$kategori->id}}"><img src="{{ asset('images/'.$kategori->foto.'') }}" alt="" class="w-100"></td>
-                                    <td id="nama-{{$kategori->id}}">{{$kategori->nama}}</td>
+                            @foreach ($query as $transaksi)
+                                <tr>
+                                    <td >{{$transaksi->id}}</td>
+                                    <td>{{$transaksi->user->nama}}</td>
+                                    <td><?php date('Y-m-d', strtotime($transaksi->tanggal)) ?></td>
                                     <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                                    Action
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$kategori->id}})" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$kategori->id}})' href="#">Delete</a></li>
-                                            </ul>
-                                        </div>  
+                                        @if($transaksi->status == true)
+                                            <button class='btn btn-secondary'>Sudah dikonfirmasi</button>
+                                        @else
+                                            <button class='btn btn-primari'>Konfirmasi</button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $transaksi->links() }}
                 </div>
             </div>
         </div>

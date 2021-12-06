@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Voucher;
 
 class VoucherController extends Controller
 {
@@ -14,6 +15,7 @@ class VoucherController extends Controller
     public function index()
     {
         $query = Voucher::all();
+        return view('pegawai.voucher',compact('query'));
     }
 
     /**

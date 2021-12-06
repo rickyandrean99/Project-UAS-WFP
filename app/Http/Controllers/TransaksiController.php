@@ -14,10 +14,8 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $query = Transaksi::all()->orderBy('status', 'DESC')->get();
-        dd($query);
-
-
+        $query = Transaksi::orderBy('status', 'DESC')->paginate(10);
+        return view('pegawai.transaksi',compact('query'));
     }
 
     /**
