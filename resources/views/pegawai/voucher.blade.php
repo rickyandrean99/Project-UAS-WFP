@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                             @foreach ($query as $voucher)
-                                <tr>
+                                <tr id='tr-{{$voucher->id}}'>
                                     <td >{{ $voucher->id }}</td>
                                     <td>{{ $voucher->kode }}</td>
                                     <td>{{ $voucher->discount }}%</td>
@@ -112,5 +112,53 @@
         $('.nav-item').removeClass('active');
         $('#voucher').addClass('active');
     });
+
+    function getData(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("voucher.data")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#mdl-header').html('Update voucher');
+                $('#mdl-body').html(data.msg);
+                $('#mdl-footer').html('');
+                // $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                // <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='update()'>Submit</button>`);
+            }
+            }); 
+    }
+    function deletes(id){
+            $('#mdl-header').html('Pemberitahuan');
+            $('#mdl-body').html('Apakah yakin menghapus voucher ini?');
+            $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltVoucher(`+id+`)'>Yes</button>`);
+        }
+
+    function dltVoucher(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("voucher.dltVoucher")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#mdl-body').html('');
+                $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> ');
+                if(data.status=='ok'){
+                    $('#mdl-body').html('Voucher berhasil dihapus');
+                    $('#tr-'+id).remove();
+                    
+                }
+                else{
+                    $('#mdl-body').html('Voucher gagal dihapus, silahkan dicoba kembali');
+                }
+                $('#modalInfo').modal('show');
+            }
+        }); 
+    }
 </script>
 @endsection

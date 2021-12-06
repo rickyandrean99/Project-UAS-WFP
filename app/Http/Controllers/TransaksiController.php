@@ -14,7 +14,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $query = Transaksi::orderBy('status', 'DESC')->paginate(10);
+        $query = Transaksi::orderBy('status')->paginate(10);
         return view('pegawai.transaksi',compact('query'));
     }
 
@@ -82,5 +82,45 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function confirm(Request $request){
+        $msg="";
+        try {
+            $id = $request->get('id');
+            $transaksi = Transaksi::find($id);
+            $transaksi->status = true;
+            $transaksi->save();
+            $msg="Konfirmasi transaksi berhasil";
+            return response()->json(array(
+                'status'=>'ok',
+                'msg' => $msg
+            ),200);
+        } catch (\PDOException $e) {
+            $msg="Konfirmasi transaksi gagal, silahkan mencoba kembali";
+            return response()->json(array(
+                'status'=>'error',
+                'msg' => $msg
+            ),200);
+        }
+        
+    }
+
+    public function detail(Request $request){
+        $msg="";
+        try {
+            $id = $request->get('id');
+            $transaksi = Transaksi::find($id);
+            $produk = $transaksi->produks;
+            return response()->json(array(
+                'msg'=> view('pegawai.transaksiDetail',compact('transaksi','produk'))->render()
+            ),200);
+
+        } catch (\PDOException $e) {
+            $msg="Gagal mendapatkan detail produk, silahkan mencoba kembali";
+            return response()->json(array(
+                'msg'=> $msg
+            ),200);
+        }
     }
 }

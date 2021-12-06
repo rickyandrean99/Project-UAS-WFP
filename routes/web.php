@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/produk/data','ProdukController@getData')->name('produk.data');
         Route::post('/produk/deletes','ProdukController@deletData')->name('produk.dltProduk');
         Route::post('/produk/detail','ProdukController@detail')->name('produk.detail');
+        Route::post('/transaksi/confirm','TransaksiController@confirm')->name('transaksi.confirm');
+        Route::post('/transaksi/details','TransaksiController@detail')->name('transaksi.details');
+        Route::post('/voucher/data','VoucherController@getData')->name('voucher.data');
+        Route::post('/voucher/deletes','VoucherController@dltVoucher')->name('voucher.dltVoucher');
     });
 
     // Route khusus akun yang sudah login

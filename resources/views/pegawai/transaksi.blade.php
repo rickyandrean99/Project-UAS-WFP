@@ -13,11 +13,8 @@
             {{session('error')}}
         </div>
     @endif
-        <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Brand</div>
+        <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Transaksi</div>
         <div class="row">
-            <div class="col-md-10">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Kategori</button>
-            </div>
             <div class='card'>
                 <div class="card-body">
                     <table class="table table-striped">
@@ -26,6 +23,7 @@
                                 <th>Id</th>
                                 <th>Member</th>
                                 <th>Tanggal</th>
+                                <th>Detail</th>
                                 <th>Status</th>  
                             </tr>
                         </thead>
@@ -33,20 +31,21 @@
                             @foreach ($query as $transaksi)
                                 <tr>
                                     <td >{{$transaksi->id}}</td>
-                                    <td>{{$transaksi->user->nama}}</td>
-                                    <td><?php date('Y-m-d', strtotime($transaksi->tanggal)) ?></td>
-                                    <td>
+                                    <td>{{$transaksi->user->name}}</td>
+                                    <td><?php echo date('d-m-Y', strtotime($transaksi->tanggal)) ?></td>
+                                    <td><button class='btn btn-seccondary' onclick='detail({{$transaksi->id}})' data-bs-toggle="modal" data-bs-target="#modalInfo">Detail</button></td>
+                                    <td id='td-confirm-{{$transaksi->id}}'>
                                         @if($transaksi->status == true)
-                                            <button class='btn btn-secondary'>Sudah dikonfirmasi</button>
+                                            <button class='btn btn-success' disabled>Sudah dikonfirmasi</button>
                                         @else
-                                            <button class='btn btn-primari'>Konfirmasi</button>
+                                            <button class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="confirmAlert({{$transaksi->id}})">Konfirmasi</button>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $transaksi->links() }}
+                    {{ $query->links() }}
                 </div>
             </div>
         </div>
@@ -55,42 +54,12 @@
 
 
 
-<!-- modal add -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah kategori</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{route('kategori.store')}}" method='post' enctype="multipart/form-data">
-                   @csrf
-                    <div class='form-group'>
-                        <label for="">Nama kategori</label>
-                        <input type="text" class='form-control' name='nmKategori' pleaceholder="Masukan nama kategori" require>
-                    </div>
-                    <div>
-                        <label for="">Foto kategori</label>
-                        <input type="file" accept="image/*" name='ftKategori' class="form-control" id="add-img" onChange="addImg(event)" >
-                    </div>
-                    <div >
-                        <img class="img w-100" src="" alt="">
-                    </div>
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-default" >Save</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+
 
 
 <!-- modal -->
 <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog" id="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="mdl-header">Pemberitahuan</h5>
@@ -100,7 +69,7 @@
         
       </div>
       <div class="modal-footer" id='mdl-footer'>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -113,5 +82,49 @@
         $('.nav-item').removeClass('active');
         $('#transaksi').addClass('active');
     });
+
+    function confirmAlert(id){
+        $('#modal-dialog').removeClass('modal-lg');
+        $('#mdl-header').html('Pemberitahuan');
+        $('#mdl-body').html('Yakin untuk menkonfirmasi transaksi ini?');
+        $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default"  onclick="confirm(`+id+`)">Yes</button>`)
+    }
+    function confirm(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("transaksi.confirm")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#modal-dialog').removeClass('modal-lg');
+                $('#mdl-header').html('Pemberitahuan');
+                $('#mdl-body').html(data.msg);
+                $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>');
+                $('#modalInfo').modal('show');
+                if(data.status == 'ok'){
+                    $('#td-confirm-'+ id).html("<button class='btn btn-success' disabled>Sudah dikonfirmasi</button>")
+                }
+            }
+            }); 
+    }
+    function detail(id){
+        $.ajax({
+            type:'POST',
+            url:'{{route("transaksi.details")}}',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'id': id
+            },
+            success:function(data){
+                $('#modal-dialog').addClass('modal-lg');
+                $('#mdl-header').html('Detail Transaksi');
+                $('#mdl-body').html(data.msg);
+                $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>');
+            }
+        }); 
+    }
 </script>
 @endsection
