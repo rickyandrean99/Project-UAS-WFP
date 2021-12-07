@@ -143,7 +143,7 @@
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus voucher ini?');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltVoucher(`+id+`)'>Yes</button>`);
+                                <button type="button" class="btn btn-default"  data-bs-dismiss="modal" onclick='dltVoucher(`+id+`)'>Yes</button>`);
         }
 
     function dltVoucher(id){

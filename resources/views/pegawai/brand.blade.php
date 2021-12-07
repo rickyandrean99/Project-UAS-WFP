@@ -158,7 +158,7 @@
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus brand ini?');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltBrand(`+id+`,"`+foto+`")'>Yes</button>`);
+                                <button type="button" class="btn btn-default"  data-bs-dismiss="modal" onclick='dltBrand(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
         function dltBrand(id,foto){

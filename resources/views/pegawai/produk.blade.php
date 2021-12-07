@@ -102,7 +102,8 @@
                         </select>
                     </div>
                     <div class='form-group'>
-                        <label for="">Spesifikasi</label>
+                        <label for="">Spesifikasi</label> <br>
+                        <small>Masukan spesifikasi dengan format: <br> Ukuran Layar:  14";Resolusi Layar: 1920 x 1080 pixels;</small>
                         <textarea class="form-control" name='spek' id="reason" rows="3"></textarea>
                     </div>
                     <div>
@@ -182,12 +183,12 @@
 
         
 
-        function deletes(id){
+        function deletes(id,foto){
             $('#modal-dialog').removeClass('modal-lg');
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus produk ini??');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltProduk(`+id+`,"`+foto+`")'>Yes</button>`);
+                                <button type="button" class="btn btn-default"  data-dismiss="modal" onclick='dltProduk(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
         function dltProduk(id,foto){

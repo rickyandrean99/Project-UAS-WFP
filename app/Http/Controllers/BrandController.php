@@ -49,13 +49,14 @@ class BrandController extends Controller
                 $ext =$foto->getClientOriginalExtension();
                 $nama_file = $request->get('nmBrand').'.'.$ext;
             // dd($nama_file);
-                $foto->move('images/logo',$nama_file);
+                
             }
 
             $data           = new Brand();
             $data->nama     = $nama;
             $data->foto     = $nama_file;
             $data->save();
+            $foto->move('images/logo',$nama_file);
             return redirect()->route('brand.index')->with('status','Data brand berhasil ditambahkan');
         } catch (\PDOException $e) {
             return redirect()->route('brand.index')->with('error','Data brand gagal ditambahkan, silahkan mencoba kembali');
@@ -110,6 +111,7 @@ class BrandController extends Controller
             }
             $brand->nama = $nama;
             $brand->save();
+            
             return redirect()->route('brand.index')->with('status','Data brand berhasil diubah');
         } catch (\PDOException $e) {
             return redirect()->route('brand.index')->with('error','Data brand gagal diubah, silahkan mencoba kembali');

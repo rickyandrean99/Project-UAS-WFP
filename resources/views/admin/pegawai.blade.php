@@ -177,7 +177,7 @@
     function notifActv(id,status){
         $('#mdl-body').html('Apakah yakin men'+status.toLowerCase()+' pegawai ini?');
         $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='suspend(`+id+`)'>Yes</button>`);
+                                <button type="button" class="btn btn-default"  data-bs-dismiss="modal" onclick='suspend(`+id+`)'>Yes</button>`);
     }
 
     function suspend(id){

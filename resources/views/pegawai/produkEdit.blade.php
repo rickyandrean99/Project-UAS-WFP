@@ -36,7 +36,8 @@
                         </select>
                     </div>
                     <div class='form-group'>
-                        <label for="">Spesifikasi</label>
+                        <label for="">Spesifikasi</label> <br>
+                        <small>Masukan spesifikasi dengan format: <br> Ukuran Layar:  14";Resolusi Layar: 1920 x 1080 pixels;</small>
                         <textarea class="form-control" name='spek' id="reason" rows="3" >{{$produk->spesifikasi}}</textarea>
                     </div>
                     <div>

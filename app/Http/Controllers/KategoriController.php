@@ -47,13 +47,14 @@ class KategoriController extends Controller
                 $ext =$foto->getClientOriginalExtension();
                 $nama_file = $request->get('nmKategori').'.'.$ext;
             // dd($nama_file);
-                $foto->move('images',$nama_file);
+                
             }
 
             $data = new Kategori();
             $data->nama = $nama;
             $data->foto = $nama_file;
             $data->save();
+            $foto->move('images',$nama_file);
             return redirect()->route('kategori.index')->with('status','Data kategori berhasil ditambahkan'); 
         } catch (\PDOException $e) {
             return redirect()->route('kategori.index')->with('error','Data kategori gagal ditambahkan, silahkan mencoba kembali'); 
@@ -108,6 +109,7 @@ class KategoriController extends Controller
             }
             $kategori->nama = $nama;
             $kategori->save();
+            
             return redirect()->route('kategori.index')->with('status','Data kategori berhasil diubah');
         } catch (\PDOException $e) {
             return redirect()->route('kategori.index')->with('error','Data kategori gagal diubah, silahkan mencoba kembali');

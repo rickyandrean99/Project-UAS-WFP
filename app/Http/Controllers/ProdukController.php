@@ -60,7 +60,7 @@ class ProdukController extends Controller
                 $ext =$foto->getClientOriginalExtension();
                 $nama_file = $request->get('nmProduk').'.'.$ext;
             // dd($nama_file);
-                $foto->move('images/produk',$nama_file);
+               
             }
 
             $data = new Produk();
@@ -72,6 +72,7 @@ class ProdukController extends Controller
             $data->brands_id = $request->get('brand');
 
             $data->save();
+            $foto->move('images/produk',$nama_file);
             return redirect()->route('produk.index')->with('status','Data produk berhasil ditambahkan');
         } catch (\PDOException $e) {
             return redirect()->route('produk.index')->with('error','Data produk gagal ditambahkan, silahkan dicoba kembali');
@@ -151,6 +152,7 @@ class ProdukController extends Controller
             $produk->brands_id = $request->get('brand');
 
             $produk->save();
+           
             return redirect()->route('produk.index')->with('status','Data produk berhasil diubah');
         } catch (\PDOException $e) {
             return redirect()->route('produk.index')->with('error','Data produk gagal diubah, silahkan mencoba kembali');

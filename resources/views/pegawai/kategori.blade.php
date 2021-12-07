@@ -157,7 +157,7 @@
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus katagori ini??');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltKategori(`+id+`,"`+foto+`")'>Yes</button>`);
+                                <button type="button" class="btn btn-default"  data-dismiss="modal" onclick='dltKategori(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
         function dltKategori(id,foto){
