@@ -70,7 +70,7 @@ class TransaksiController extends Controller
         session()->put('voucher', $value);
         session()->put('keranjang', $value);
 
-        return redirect()->route('beranda');
+        return redirect()->route('riwayat');
     }
 
     /**
@@ -166,7 +166,7 @@ class TransaksiController extends Controller
     }
 
     public function riwayat() {
-        $transaksi = Transaksi::where("users_id", Auth::user()->id)->get();
+        $transaksi = Transaksi::where("users_id", Auth::user()->id)->orderBy('status', 'ASC')->orderBy('tanggal', 'DESC')->get();
         
         return view("user.riwayat", compact('transaksi'));
     }

@@ -44,13 +44,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($query as $pegawai)
+                                    @php ($activ = "")
                                     <tr>
                                         <td>{{$pegawai->name}}</td>
                                         <td>{{$pegawai->email}}</td>
                                         @if($pegawai->active == true)
                                             <td id="active-{{$pegawai->id}}">Active</td>
+                                            @php ($status = "Suspend")
                                         @else
                                             <td id="active-{{$pegawai->id}}">Suspend</td>
+                                            @php ($status = "Activasi")
                                         @endif
                                         <td>
                                             <div class="dropdown">
@@ -59,7 +62,11 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#reset-pass" onclick="getId({{$pegawai->id}})" href="#">Reset Password</a></li>
-                                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='notifActv({{$pegawai->id}})' href="#">Activation</a></li>
+                                                    <li>
+                                                        <a id="btnStatus-{{$pegawai->id}}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='notifActv({{$pegawai->id}},"{{$status}}")' href="#">
+                                                           {{$status}}
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>  
                                         </td>
@@ -167,8 +174,8 @@
         $('#pegawai').addClass('active');
     });
 
-    function notifActv(id){
-        $('#mdl-body').html('Apakah yakin mengubah activasi pegawai ini?');
+    function notifActv(id,status){
+        $('#mdl-body').html('Apakah yakin men'+status.toLowerCase()+' pegawai ini?');
         $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='suspend(`+id+`)'>Yes</button>`);
     }
@@ -187,6 +194,12 @@
                 if(data.status=='ok'){
                     $('#mdl-body').html('Aktivasi Pegawai berhasil diubah');
                     $('#active-'+id).html(data.act);
+                    if(data.act == "Active"){
+                        $('#btnStatus-'+id).html('Suspend');
+                    }
+                    else{
+                        $('#btnStatus-'+id).html('Active');
+                    }
                 }
                 else{
                     $('#mdl-body').html('Perubahan gagal, silahkan dicoba kembali');

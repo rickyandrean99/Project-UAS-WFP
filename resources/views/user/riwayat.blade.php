@@ -14,7 +14,7 @@
 
         <div class="row p-0 m-0">
             @foreach($transaksi as $t)
-                <div class="col-12 p-4 mb-4 border d-flex flex-wrap">
+                <div class="col-12 p-5 mb-5 border d-flex flex-wrap" style="box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.2);">
                     @php
                         $datetime = new DateTime($t->tanggal);
                         $date = $datetime->format('j F Y');
@@ -48,13 +48,43 @@
                     <!-- Status -->
                     <div class="mb-2" style="width: 13%">Status</div>
                     <div class="mb-2" style="width: 2%">:</div>
-                    <div class="mb-2" style="width: 85%">
+                    <div class="mb-4" style="width: 85%">
                         @if($t->status)
                             <span class="pop-bold text-success">Sudah dikonfirmasi</span>
                         @else
                             <span class="pop-bold text-danger">Belum Dikonfirmasi</span>
                         @endif
                     </div>
+
+                    <!-- Tabel Transaksi Produk -->
+                    <table class="table table-bordered text-center mt-2" style="vertical-align: middle;">
+                        <thead style="vertical-align: middle;">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Foto</th>
+                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Kuantitas</th>
+                                <th scope="col">Total<br><span class="fst-italic small" style="font-weight: 400 !important">(Belum termasuk diskon)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php    
+                                $i = 0;
+                            @endphp
+                            @foreach($t->produks as $tp)
+                                <tr>
+                                    <td>{{ ++$i }}</td>
+                                    <td style="width: 12%"><img src="{{ asset('images/produk/'.$tp->foto) }}" alt="produk" class="w-100"></td>
+                                    <td>{{ $tp->nama }}</td>
+                                    <td style="width: 15%">Rp {{ number_format($tp->pivot->harga,2,',','.') }}</td>
+                                    <td style="width: 10%">{{ $tp->pivot->kuantitas }}</td>
+                                    <td style="width: 20%">Rp {{ number_format(($tp->pivot->harga * $tp->pivot->kuantitas),2,',','.') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    
                 </div>
             @endforeach
         </div>

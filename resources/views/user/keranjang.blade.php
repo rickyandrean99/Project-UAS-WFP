@@ -44,7 +44,7 @@
                             <th scope="row">{{ $i }}</th>
                             <td style="width: 15%;"><img src="{{ asset('images/produk/'.$produk['foto'] ) }}" alt="produk" class="w-100"></td>
                             <td>{{ $produk['nama'] }}</td>
-                            <td id="harga-{{ $id }}" harga="{{ $produk['harga'] }}">Rp {{ number_format($produk['harga'],2,',','.') }}</td>
+                            <td style="width: 15%;"id="harga-{{ $id }}" harga="{{ $produk['harga'] }}">Rp {{ number_format($produk['harga'],2,',','.') }}</td>
                             <td style="width: 20%;">
                                 <button type="button" class="btn border-0 text-white pop-semibold h4 px-3 py-2" onclick="ubahKuantitas({{ $id }}, -1)" style="background: linear-gradient(87.03deg, #BF5749 -16.34%, #E95743 65.69%, #F5635A 131.66%)">-</button>
                                 <span id="kuantitas-{{ $id }}" class="px-4">{{ $produk['kuantitas'] }}</span>
