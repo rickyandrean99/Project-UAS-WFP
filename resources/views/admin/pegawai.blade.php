@@ -92,7 +92,7 @@
                     </div>
                     <div class='form-group'>
                         <label for="">Email Pegawai</label>
-                        <input type="email" class='form-control' name='emailPegawai' pleaceholder="Masukan email pegawai" require>
+                        <input type="email" class='form-control' name='email' pleaceholder="Masukan email pegawai" require>
                     </div>
                     <div class='form-group'>
                         <label for="">Password Pegawai</label>
@@ -186,12 +186,12 @@
                 $('#mdl-footer').html('<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> ');
                 if(data.status=='ok'){
                     $('#mdl-body').html('Aktivasi Pegawai berhasil diubah');
+                    $('#active-'+id).html(data.act);
                 }
                 else{
                     $('#mdl-body').html('Perubahan gagal, silahkan dicoba kembali');
                 }
                 $('#modalInfo').modal('show');
-                $('#active-'+id).html(data.act);
             }
         }); 
     }
@@ -218,6 +218,7 @@
             success:function(data){
                 $('#mdl-body').html('');
                 $('#mdl-body').html(data.msg);
+                $('#modalInfo').modal('show');
             }
         });
     }

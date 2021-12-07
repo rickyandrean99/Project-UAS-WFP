@@ -37,7 +37,7 @@
                             @foreach ($query as $kategori)
                                 <tr id="tr-{{$kategori->id}}">
                                     <td >{{$kategori->id}}</td>
-                                    <td id="foto-{{$kategori->id}}"><img src="{{ asset('images/'.$kategori->foto.'') }}" alt="" class="w-100"></td>
+                                    <td style="width:20%;"><img src="{{ asset('images/'.$kategori->foto.'') }}" alt="" class="w-100"></td>
                                     <td id="nama-{{$kategori->id}}">{{$kategori->nama}}</td>
                                     <td>
                                         <div class="dropdown">
@@ -67,18 +67,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah kategori</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="{{route('kategori.store')}}" method='post' enctype="multipart/form-data">
                    @csrf
                     <div class='form-group'>
-                        <label for="">Nama kategori</label>
+                        <label for="">Nama Kategori</label>
                         <input type="text" class='form-control' name='nmKategori' pleaceholder="Masukan nama kategori" require>
                     </div>
                     <div>
-                        <label for="">Foto kategori</label>
+                        <label for="">Foto Kategori</label>
                         <input type="file" accept="image/*" name='ftKategori' class="form-control" id="add-img" onChange="addImg(event)" >
                     </div>
                     <div >
@@ -151,38 +151,7 @@
             }); 
         }
 
-        function update(){
-            // alert('dor');
-            var id = $('#edit-id').val();
-            var nama = $('#edit-name').val();
-            var foto = $('#edit-foto').val();
-
-            $.ajax({
-            type:'POST',
-            url:'{{route("brand.updateBrand")}}',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id,
-                'nama':nama,
-                'foto': foto
-            },
-            success:function(data){
-                $('#mdl-header').html('Pemberitahuan');
-                if(data.status == 'ok'){
-                    $('#mdl-body').html("Data brand berhasil di update");
-                    $('#nama-'+id).html(data.nama);
-                    if(data.foto != ""){
-                        $('#foto-'+id).html(data.foto);
-                    }
-                }
-                else{
-                    $('#mdl-body').html("Data brand gagal di update, silahkan mencoba kembali");
-                }
-                $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`);
-            }
-            }); 
-
-        }
+        
 
         function deletes(id){
             $('#mdl-header').html('Pemberitahuan');
@@ -209,6 +178,7 @@
                 else{
                     $('#mdl-body').html('Kategori gagal dihapus, silahkan dicoba kembali');
                 }
+                $('#modalInfo').modal('show');
             }
         }); 
         }

@@ -2,13 +2,13 @@
     @csrf
     @method("PUT")
         <div class='form-group'>
-            <label for="">Nama kategori</label>
-            <input type="text" class='form-control' name='nmKategori' pleaceholder="Masukan nama kategori" require>
+            <label for="">Nama brand</label>
+            <input type="text" class='form-control' name='nmBrand' value="{{$data->nama}}" pleaceholder="Masukan nama kategori" require>
         </div>
         <div>
             <input type="hidden" name='hidden-foto' value="{{$data->foto}}"> 
-            <label for="">Foto kategori</label>
-            <input type="file" accept="image/*" name='ftKategori' class="form-control" id="add-img" onChange="addImg(event)" >
+            <label for="">Foto brand</label>
+            <input type="file" accept="image/*" name='ftBrand' class="form-control" id="add-img" onChange="addImg(event)" >
         </div>
         <div >
             <img class="img w-100" src="" alt="">

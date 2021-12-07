@@ -123,4 +123,8 @@ class TransaksiController extends Controller
             ),200);
         }
     }
+
+    public function loadCheckout(Request $request) {
+        return view("user.checkout");
+    } 
 }

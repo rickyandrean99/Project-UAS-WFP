@@ -42,7 +42,17 @@
                     @if(Auth::user())
                         Rp {{ number_format($produk->harga,2,',','.') }}
                     @else
-                        Rp {{ str_pad(Str::limit($produk->harga, 1, ''), strlen(($produk->harga)-1),'X', STR_PAD_RIGHT) }} 
+                        <?php 
+                            $bagi = (strlen($produk->harga)/3);
+                            $jumlah = strlen(($produk->harga)-1);
+                            $angka_depan = substr(strval($produk->harga),0,1);
+
+                            $ubah_x = str_pad($angka_depan, $jumlah, 'X', STR_PAD_RIGHT);
+                            $arr = array_map("strrev", array_reverse(str_split(strrev($ubah_x), 3)));
+                            $hasil = implode(',', $arr);
+                        ?>
+                            Rp {{ $hasil }}.XX
+                        
                     @endif
                 </div>
 
@@ -81,10 +91,8 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h6 class="modal-title" id="modal-text"></h6>
                     <button type="button" class="btn-close my-1 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h6 id="modal-text"></h6>
                 </div>
             </div>
         </div>

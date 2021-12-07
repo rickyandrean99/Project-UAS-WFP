@@ -3,8 +3,8 @@
         <tr>
             <th>Foto</th>
             <th>Nama Produk</th>
-            <th>kuantitas</th>
-            <th>harga</th>
+            <th>Kuantitas</th>
+            <th>Harga</th>
         </tr>
     </thead>
     <tbody>

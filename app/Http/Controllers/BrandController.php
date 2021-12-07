@@ -16,7 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $query = Brand::all();
+        $query = Brand::paginate(10);
         
         return view('pegawai.brand',compact('query'));
     }
@@ -41,21 +41,26 @@ class BrandController extends Controller
     {
         $this->authorize('cekpegawai');
 
-        $nama = $request->get('nmBrand');
-        $nama_file = '';
-        if($request->hasFile('ftBrand')){
-            $foto = $request->file("ftBrand");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $request->get('nmBrand').'.'.$ext;
-           // dd($nama_file);
-            $foto->move('images/logo',$nama_file);
-        }
+        try {
+            $nama = $request->get('nmBrand');
+            $nama_file = '';
+            if($request->hasFile('ftBrand')){
+                $foto = $request->file("ftBrand");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $request->get('nmBrand').'.'.$ext;
+            // dd($nama_file);
+                $foto->move('images/logo',$nama_file);
+            }
 
-        $data           = new Brand();
-        $data->nama     = $nama;
-        $data->foto     = $nama_file;
-        $data->save();
-        return redirect()->route('brand.index')->with('status','Data brand berhasil ditambahkan'); 
+            $data           = new Brand();
+            $data->nama     = $nama;
+            $data->foto     = $nama_file;
+            $data->save();
+            return redirect()->route('brand.index')->with('status','Data brand berhasil ditambahkan');
+        } catch (\PDOException $e) {
+            return redirect()->route('brand.index')->with('error','Data brand gagal ditambahkan, silahkan mencoba kembali');
+        }
+         
     }
 
     /**
@@ -91,20 +96,25 @@ class BrandController extends Controller
     {
         $this->authorize('cekpegawai');
 
-        $nama = $request->get('nmBrand');
-        $nama_file = '';
-        $hiddenFoto = $request->get('hidden-foto');
-        if($request->hasFile('ftBrand')){
-            $foto = $request->file("ftBrand");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $request->get('nmBrand').'.'.$ext;
-            File::delete(public_path('images/logo/'.$hiddenFoto));
-            $foto->move('images/logo',$nama_file);
-            $brand->foto = $nama_file;
+        try {
+            $nama = $request->get('nmBrand');
+            $nama_file = '';
+            $hiddenFoto = $request->get('hidden-foto');
+            if($request->hasFile('ftBrand')){
+                $foto = $request->file("ftBrand");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $request->get('nmBrand').'.'.$ext;
+                File::delete(public_path('images/logo/'.$hiddenFoto));
+                $foto->move('images/logo',$nama_file);
+                $brand->foto = $nama_file;
+            }
+            $brand->nama = $nama;
+            $brand->save();
+            return redirect()->route('brand.index')->with('status','Data brand berhasil diubah');
+        } catch (\PDOException $e) {
+            return redirect()->route('brand.index')->with('error','Data brand gagal diubah, silahkan mencoba kembali');
         }
-        $brand->nama = $nama;
-        $brand->save();
-        return redirect()->route('brand.index')->with('status','Data brand berhasil diubah');
+        
     }
 
     /**
@@ -128,50 +138,38 @@ class BrandController extends Controller
 
     public function getData(Request $request) {
         $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $data = Brand::find($id);
-        return response()->json(array(
-            'msg'=> view('pegawai.brandEdit',compact('data'))->render()
-        ),200);
-    }
-
-    public function updateData(Request $request) {
-        $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $nama = $request->get('nama');
-        $foto = $request->get('foto');
-        $nama_file = '';
-        $brand = Brand::find($id);
-
-        if($foto != ""){
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $nama.'.'.$ext;
-            File::delete(public_path('images/logo'.$nama_file));
-            $foto->move('images/logo',$nama_file);
-            $brand->foto = $nama_file;
-            
+        
+        try {
+            $id = $request->get('id');
+            $data = Brand::find($id);
+            return response()->json(array(
+                'msg'=> view('pegawai.brandEdit',compact('data'))->render()
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'msg'=> "gagal mengambil data brand, silahkan mencoba kembali"
+            ),200);
         }
-        $brand->nama = $nama;
-        $brand->save();
-
-        return response()->json(array(
-            'status'=>'ok',
-            'nama' => $nama,
-            'foto' => $nama_file
-        ),200);
+       
     }
+
+    
 
     public function deletData(Request $request) {
         $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $brand = Brand::find($id);
-        $brand->delete();
-        return response()->json(array(
-            'status'=>'ok'
-        ),200);
+        try {
+            $id = $request->get('id');
+            $brand = Brand::find($id);
+            $brand->delete();
+            return response()->json(array(
+                'status'=>'ok'
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status'=>'error'
+            ),200);
+        }
+        
     }
 
 }

@@ -38,14 +38,19 @@ class VoucherController extends Controller
     {
         try {
             $this->authorize('cekpegawai');
-
+            $request->validate([
+                'kdVoucher' => ['required', 'string','min:10']
+            ],
+            [
+                'kdVoucher.min'   => 'Data voucher gagal ditambahkan, kode voucher minimal 10 karakter'
+            ]);
             $data = new Voucher();
             $data->kode = $request->get('kdVoucher');
             $data->discount = $request->get('discVoucher');
 
             $data->save();
             return redirect()->route('voucher.index')->with('status','Voucher berhasil ditambahkan'); 
-        } catch (\Throwable $th) {
+        } catch (\PDOException $e) {
             return redirect()->route('voucher.index')->with('error','Voucher gagal ditambahkan, silahkan mencoba kembali'); 
         }
     }
@@ -82,7 +87,16 @@ class VoucherController extends Controller
     public function update(Request $request, Voucher $voucher)
     {
         $this->authorize('cekpegawai');
+        
         try {
+            $request->validate([
+                'kdVoucher' => ['required', 'string','min:10']
+            ],
+            [
+                'kdVoucher.min' => 'Data voucher gagal diubah, kode voucher minimal 10 karakter'
+            ]
+            );
+
             $voucher->kode = $request->get('kdVoucher');
             $voucher->discount = $request->get('discVoucher');
 
@@ -106,6 +120,7 @@ class VoucherController extends Controller
 
     public function getData(Request $request){
         $this->authorize('cekpegawai');
+
         $msg='';
         try {
             $id = $request->get('id');
@@ -125,17 +140,35 @@ class VoucherController extends Controller
     public function dltVoucher(Request $request){
         $this->authorize('cekpegawai');
         try {
-            $id = $request->get('id');
+            $id = $request -> get('id');
             $voucher = Voucher::find($id);
-            $voucher->delete();
-            return response()->json(array(
+            $voucher -> delete();
+            return response() -> json(array(
                 'status'=>'ok'
             ),200);
-        } catch (\Throwable $th) {
+        } catch (\PDOException $e) {
             return response()->json(array(
                 'status'=>'error'
             ),200);
         }
+    }
 
+    public function checkVoucher(Request $request) {
+        $voucher = Voucher::where("kode", $request->get("voucher"))->get();
+
+        if (count($voucher) > 0) {
+            session()->put('voucher', $voucher[0]->kode);
+
+            return response()->json(array(
+                'result' => "sukses"
+            ),200);
+        }
+
+        // $vouc = null;
+        // session()->put('voucher', $vouc);
+
+        return response()->json(array(
+            'result' => "gagal"
+        ),200);
     }
 }

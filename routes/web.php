@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'BerandaController@index')->name('beranda');
 Route::get('/produk/kategori/{kategori}', 'KategoriController@tampilkanKategori');
 Route::get('/produk/brand/{brand}', 'BrandController@tampilkanBrand');
+
 Route::resource('produk','ProdukController');
 Route::resource('brand','BrandController');
 Route::resource('kategori','KategoriController');
@@ -53,15 +54,20 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('transaksi','TransaksiController');
     Route::resource('voucher','VoucherController');
 
-    Route::get('/keranjang', 'ProdukController@keranjang')->name("keranjang.tambahhapus");
-    Route::post('/keranjang/tambahhapus', 'ProdukController@tambahHapusKeranjang')->name("keranjang.tambahhapus");
-
     Route::get('/banding', 'ProdukController@bandingProduk');
 
     Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
     Route::post('/produk/wishlist', 'WishlistController@addOrRemove')->name('produk.wishlist');
     Route::post('/produk/banding/tipe', 'ProdukController@perbandinganTipe')->name('produk.produkberdasarkantipe');
     Route::post('/produk/banding/produk', 'ProdukController@perbandinganProduk')->name('produk.detailberdasarkanproduk');
+
+    Route::get('/keranjang', 'ProdukController@keranjang')->name("keranjang");
+    Route::post('/keranjang/tambahhapus', 'ProdukController@tambahHapusKeranjang')->name("keranjang.tambahhapus");
+    Route::post('/keranjang/ubah', 'ProdukController@ubahKeranjang')->name("keranjang.ubah");
+
+    Route::get('/checkout', 'TransaksiController@loadCheckout');
+
+    Route::post('/voucher/check', 'VoucherController@checkVoucher')->name('voucher.check');
 });
 
 // Authentication Routing

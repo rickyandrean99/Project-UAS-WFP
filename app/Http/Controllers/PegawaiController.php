@@ -38,34 +38,40 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'passPegawai' => ['required', 'string','min:8']
-        ],
-        [
-            'passPegawai.min'   => 'Data pegawai gagal ditambahkan, password minimal 6 karakter'
-        ]
-        );
-
-        $pass = $request->get('passPegawai');
-        $Repass = $request->get('konfirmasiPass');
+            try {
+                $request->validate([
+                    'passPegawai' => ['required', 'string','min:8'],
+                    'email'=> ['required','string', 'email', 'max:255', 'unique:users']
+                ],
+                [
+                    'passPegawai.min'   => 'Data pegawai gagal ditambahkan, password minimal 6 karakter',
+                    'email.email' => 'Data pegawai gagal ditambahkan, email salah'
+                ]
+                );
         
+                $pass = $request->get('passPegawai');
+                $Repass = $request->get('konfirmasiPass');
+                
+        
+                if($pass == $Repass){
+                    $data = new User();
+                    $data->name         = $request->get('nmPegawai'); 
+                    $data->email        = $request->get('email'); 
+                    $data->password     = Hash::make($pass);
+                    $data->sebagai      = "pegawai";
+                    $data->active       = true;
+                    $data->save();
+                    return redirect()->route('pegawai.index')->with('status','Data pegawai berhasil ditambahkan');
+                }
+                else{
+                    return redirect()->route('pegawai.index')->with('error','Data pegawai gagal ditambahkan, password tidak sama');
+                }
+            } catch (\PDOException $e) {
+                return redirect()->route('pegawai.index')->with('error','Data pegawai gagal ditambahkan, silahkan mencoba kembali');
+            }
+            
 
-        if($pass == $Repass){
-            $data = new User();
-            $data->name         = $request->get('nmPegawai'); 
-            $data->email        = $request->get('emailPegawai'); 
-            $data->password     = Hash::make($pass);
-            $data->created_at   = Carbon::now();
-            $data->updated_at   = Carbon::now();
-            $data->sebagai      = "pegawai";
-            $data->active       = true;
-            $data->save();
-            return redirect()->route('pegawai.index')->with('status','Data pegawai berhasil ditambahkan');
-        }
-        else{
-            return redirect()->route('pegawai.index')->with('error','Data pegawai gagal ditambahkan, password tidak sama');
-        }
+        
     }
 
     /**
@@ -114,49 +120,63 @@ class PegawaiController extends Controller
     }
 
     public function suspend(Request $request){
-        $id = $request->get('id');
-        $active = "";
-        $pegawai = User::find($id);
-        if($pegawai->active == true){
-            $pegawai->active = FALSE;
-            $active = "Suspend";
-        }
-        else {
-            $pegawai->active = true;
-            $active = "Active";
-        }
-        $pegawai->save();
-        
+        try {
+            $id = $request->get('id');
+            $active = "";
+            $pegawai = User::find($id);
+            if($pegawai->active == true){
+                $pegawai->active = FALSE;
+                $active = "Suspend";
+            }
+            else {
+                $pegawai->active = true;
+                $active = "Active";
+            }
+            $pegawai->save();
+            
 
-        return response()->json(array(
-            'status'=>'ok',
-            'act' => $active
-        ),200);
+            return response()->json(array(
+                'status'=>'ok',
+                'act' => $active
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status'=>'error'
+            ),200);
+        }
+        
     }
 
     public function resetPass(Request $request){
-        $id = $request->get('id');
-        $pass = $request->get('pass');
-        $rePass = $request->get('rePass');
         $msg = "";
-        if(strlen($pass) >= 8){
-            if($pass == $rePass){
-                $pegawai = User::find($id);
-                $pegawai->password = Hash::make($pass);
-                $pegawai->save();
-                $msg = "Password pegawai berhasil diubah";
+        try {
+            $id = $request->get('id');
+            $pass = $request->get('pass');
+            $rePass = $request->get('rePass');
+            if(strlen($pass) >= 8){
+                if($pass == $rePass){
+                    $pegawai = User::find($id);
+                    $pegawai->password = Hash::make($pass);
+                    $pegawai->save();
+                    $msg = "Password pegawai berhasil diubah";
+                }
+                else{
+                    $msg = "Password pegawai gagal diubah, password tidak sama";
+                }
             }
             else{
-                $msg = "Password pegawai gagal diubah, password tidak sama";
+                $msg = "Password pegawai gagal diubah, password minimal 6 karakter";
             }
-        }
-        else{
-            $msg = "Password pegawai gagal diubah, password minimal 6 karakter";
+            
+            return response()->json(array(
+                'msg' => $msg
+            ),200);
+        } catch (\PDOException $e) {
+            $msg ="Password pegawai gagal diubah, silahkan mencoba kembali";
+            return response()->json(array(
+                'msg' => $msg
+            ),200);
         }
         
-        return response()->json(array(
-            'status'=>'ok',
-            'msg' => $msg
-        ),200);
     }
 }

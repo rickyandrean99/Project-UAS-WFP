@@ -31,7 +31,6 @@
                                 <th>Nama</th>
                                 <th>Kategori</th>
                                 <th>Brand</th>
-                                <th>Harga</th>
                                 <th></th>  
                             </tr>
                         </thead>
@@ -42,7 +41,6 @@
                                     <td>{{$p->nama}}</td>
                                     <td >{{$p->kategori->nama}}</td>
                                     <td >{{$p->brand->nama}}</td>
-                                    <td >{{$p->Harga}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-primary dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -182,39 +180,7 @@
             }); 
         }
 
-        function update(){
-            // alert('dor');
-            var id = $('#edit-id').val();
-            var nama = $('#edit-name').val();
-            var foto = $('#edit-foto').val();
-
-            $.ajax({
-            type:'POST',
-            url:'{{route("brand.updateBrand")}}',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id,
-                'nama':nama,
-                'foto': foto
-            },
-            success:function(data){
-                $('#modal-dialog').removeClass('modal-lg');
-                $('#mdl-header').html('Pemberitahuan');
-                if(data.status == 'ok'){
-                    $('#mdl-body').html("Data brand berhasil di update");
-                    $('#nama-'+id).html(data.nama);
-                    if(data.foto != ""){
-                        $('#foto-'+id).html(data.foto);
-                    }
-                }
-                else{
-                    $('#mdl-body').html("Data brand gagal di update, silahkan mencoba kembali");
-                }
-                $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>`);
-            }
-            }); 
-
-        }
+        
 
         function deletes(id){
             $('#modal-dialog').removeClass('modal-lg');
@@ -243,6 +209,7 @@
                 else{
                     $('#mdl-body').html('Produk gagal dihapus, silahkan dicoba kembali');
                 }
+                $('#modalInfo').modal('show');
             }
         }); 
         }

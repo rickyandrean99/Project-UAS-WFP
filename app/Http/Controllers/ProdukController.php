@@ -52,27 +52,31 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $this->authorize('cekpegawai');
+        try {
+            $nama = $request->get('nmProduk');
+            $nama_file = '';
+            if($request->hasFile('ftProduk')){
+                $foto = $request->file("ftProduk");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $request->get('nmProduk').'.'.$ext;
+            // dd($nama_file);
+                $foto->move('images/produk',$nama_file);
+            }
 
-        $nama = $request->get('nmProduk');
-        $nama_file = '';
-        if($request->hasFile('ftProduk')){
-            $foto = $request->file("ftProduk");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $request->get('nmProduk').'.'.$ext;
-           // dd($nama_file);
-            $foto->move('images/produk',$nama_file);
+            $data = new Produk();
+            $data->nama = $nama;
+            $data->foto = $nama_file;
+            $data->harga = $request->get('hrgProduk');
+            $data->spesifikasi = $request->get('spek');
+            $data->kategoris_id = $request->get('kategori');
+            $data->brands_id = $request->get('brand');
+
+            $data->save();
+            return redirect()->route('produk.index')->with('status','Data produk berhasil ditambahkan');
+        } catch (\PDOException $e) {
+            return redirect()->route('produk.index')->with('error','Data produk gagal ditambahkan, silahkan dicoba kembali');
         }
-
-        $data = new Produk();
-        $data->nama = $nama;
-        $data->foto = $nama_file;
-        $data->harga = $request->get('hrgProduk');
-        $data->spesifikasi = $request->get('spek');
-        $data->kategoris_id = $request->get('kategori');
-        $data->brands_id = $request->get('brand');
-
-        $data->save();
-        return redirect()->route('produk.index')->with('status','Data produk berhasil ditambahkan'); 
+         
     }
 
     /**
@@ -127,27 +131,31 @@ class ProdukController extends Controller
     public function update(Request $request, Produk $produk)
     {
         $this->authorize('cekpegawai');
+        try {
+            $nama = $request->get('nmProduk');
+            $nama_file = '';
+            $hiddenFoto = $request->get('hidden-foto');
+            if($request->hasFile('ftProduk')){
+                $foto = $request->file("ftProduk");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $nama.'.'.$ext;
+                File::delete(public_path('images/produk/'.$hiddenFoto));
+                $foto->move('images/produk',$nama_file);
+                $produk->foto = $nama_file;
+            }
+            
+            $produk->nama = $nama;
+            $produk->harga = $request->get('hrgProduk');
+            $produk->spesifikasi = $request->get('spek');
+            $produk->kategoris_id = $request->get('kategori');
+            $produk->brands_id = $request->get('brand');
 
-        $nama = $request->get('nmProduk');
-        $nama_file = '';
-        $hiddenFoto = $request->get('hidden-foto');
-        if($request->hasFile('ftProduk')){
-            $foto = $request->file("ftProduk");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $nama.'.'.$ext;
-            File::delete(public_path('images/produk/'.$hiddenFoto));
-            $foto->move('images/produk',$nama_file);
-            $produk->foto = $nama_file;
+            $produk->save();
+            return redirect()->route('produk.index')->with('status','Data produk berhasil diubah');
+        } catch (\PDOException $e) {
+            return redirect()->route('produk.index')->with('error','Data produk gagal diubah, silahkan mencoba kembali');
         }
         
-        $produk->nama = $nama;
-        $produk->harga = $request->get('hrgProduk');
-        $produk->spesifikasi = $request->get('spek');
-        $produk->kategoris_id = $request->get('kategori');
-        $produk->brands_id = $request->get('brand');
-
-        $produk->save();
-        return redirect()->route('produk.index')->with('status','Data produk berhasil diubah');
     }
 
     /**
@@ -168,14 +176,20 @@ class ProdukController extends Controller
 
     public function getData(Request $request) {
         $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $produk = Produk::find($id);
-        $brand = Brand::all();
-        $kategori = Kategori::all();
-        return response()->json(array(
-            'msg'=> view('pegawai.produkEdit',compact('produk','brand','kategori'))->render()
-        ),200);
+        try {
+            $id = $request->get('id');
+            $produk = Produk::find($id);
+            $brand = Brand::all();
+            $kategori = Kategori::all();
+            return response()->json(array(
+                'msg'=> view('pegawai.produkEdit',compact('produk','brand','kategori'))->render()
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'msg'=> "gagal mendapatkan data produk, silahkan mencoba kembali9"
+            ),200);
+        }
+        
     }
 
     public function perbandinganTipe(Request $request) {
@@ -197,23 +211,37 @@ class ProdukController extends Controller
 
     public function deletData(Request $request){
         $this->authorize('cekpegawai');
-        $id = $request->get('id');
-        $produk = Produk::find($id);
-        $produk->delete();
-        return response()->json(array(
-            'status'=>'ok'
-        ),200);
+        try {
+            $id = $request->get('id');
+            $produk = Produk::find($id);
+            $produk->delete();
+            return response()->json(array(
+                'status'=>'ok'
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status'=>'error'
+            ),200);
+        }
+        
     }
 
     public function detail(Request $request){
         $this->authorize('cekpegawai');
-        $id = $request->get('id');
-        $produk = Produk::find($id);
-        $produk->spesifikasi = explode(";", $produk->spesifikasi);
-        $wishlist = count($produk->users);
-        return response()->json(array(
-            'msg'=> view('pegawai.produkDetail',compact('produk','wishlist'))->render()
-        ),200);
+        try {
+            $id = $request->get('id');
+            $produk = Produk::find($id);
+            $produk->spesifikasi = explode(";", $produk->spesifikasi);
+            $wishlist = count($produk->users);
+            return response()->json(array(
+                'msg'=> view('pegawai.produkDetail',compact('produk','wishlist'))->render()
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'msg'=> "gagal mendapat detail produk, silahkan mencoba kembali."
+            ),200);
+        }
+        
     }
 
     public function keranjang() {
@@ -223,7 +251,7 @@ class ProdukController extends Controller
     public function tambahHapusKeranjang(Request $request) {
         $tipe = $request->get("tipe");
         
-        if ($tipe == "tambah" || $tipe == "ubah" || $tipe == "hapus") {
+        if ($tipe == "tambah" || $tipe == "hapus") {
             $id = $request->get("id");
             $jumlah = $request->get("jumlah");
             $produk = Produk::find($id);
@@ -236,8 +264,6 @@ class ProdukController extends Controller
                     "harga" => $produk->harga,
                     "kuantitas" => $jumlah,
                 ];
-            } else if ($tipe == "ubah") {
-                $keranjang[$id]['kuantitas'] = $jumlah;
             } else if ($tipe == "hapus") {
                 unset($keranjang[$id]);
             }
@@ -250,6 +276,22 @@ class ProdukController extends Controller
 
         return response()->json(array(
             'result'=> 'gagal'
+        ),200);
+    }
+
+    public function ubahKeranjang(Request $request) {
+        $list_id = $request->get("listId");
+        $list_kuantitas = $request->get("listKuantitas");
+        $keranjang = session()->get('keranjang');
+        
+        foreach($list_id as $idx => $id) {
+            $keranjang[$id]["kuantitas"] = $list_kuantitas[$idx];
+        }
+
+        session()->put('keranjang', $keranjang);
+
+        return response()->json(array(
+            'result'=> 'sukses'
         ),200);
     }
 }

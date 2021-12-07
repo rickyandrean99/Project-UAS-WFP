@@ -39,22 +39,26 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $this->authorize('cekpegawai');
+        try {
+            $nama = $request->get('nmKategori');
+            $nama_file = '';
+            if($request->hasFile('ftKategori')){
+                $foto = $request->file("ftKategori");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $request->get('nmKategori').'.'.$ext;
+            // dd($nama_file);
+                $foto->move('images',$nama_file);
+            }
 
-        $nama = $request->get('nmKategori');
-        $nama_file = '';
-        if($request->hasFile('ftKategori')){
-            $foto = $request->file("ftKategori");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $request->get('nmKategori').'.'.$ext;
-           // dd($nama_file);
-            $foto->move('images',$nama_file);
+            $data = new Kategori();
+            $data->nama = $nama;
+            $data->foto = $nama_file;
+            $data->save();
+            return redirect()->route('kategori.index')->with('status','Data kategori berhasil ditambahkan'); 
+        } catch (\PDOException $e) {
+            return redirect()->route('kategori.index')->with('error','Data kategori gagal ditambahkan, silahkan mencoba kembali'); 
         }
-
-        $data = new Kategori();
-        $data->nama = $nama;
-        $data->foto = $nama_file;
-        $data->save();
-        return redirect()->route('kategori.index')->with('status','Data kategori berhasil ditambahkan'); 
+        
     
     }
 
@@ -90,21 +94,25 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $this->authorize('cekpegawai');
-
-        $nama = $request->get('nmKategori');
-        $nama_file = '';
-        $hiddenFoto = $request->get('hidden-foto');
-        if($request->hasFile('ftKategori')){
-            $foto = $request->file("ftKategori");
-            $ext =$foto->getClientOriginalExtension();
-            $nama_file = $request->get('nmKategori').'.'.$ext;
-            File::delete(public_path('images/'.$hiddenFoto));
-            $foto->move('images',$nama_file);
-            $kategori->foto = $nama_file;
+        try {
+            $nama = $request->get('nmKategori');
+            $nama_file = '';
+            $hiddenFoto = $request->get('hidden-foto');
+            if($request->hasFile('ftKategori')){
+                $foto = $request->file("ftKategori");
+                $ext =$foto->getClientOriginalExtension();
+                $nama_file = $request->get('nmKategori').'.'.$ext;
+                File::delete(public_path('images/'.$hiddenFoto));
+                $foto->move('images',$nama_file);
+                $kategori->foto = $nama_file;
+            }
+            $kategori->nama = $nama;
+            $kategori->save();
+            return redirect()->route('kategori.index')->with('status','Data kategori berhasil diubah');
+        } catch (\PDOException $e) {
+            return redirect()->route('kategori.index')->with('error','Data kategori gagal diubah, silahkan mencoba kembali');
         }
-        $kategori->nama = $nama;
-        $kategori->save();
-        return redirect()->route('kategori.index')->with('status','Data kategori berhasil diubah');
+        
     }
 
     /**
@@ -128,22 +136,34 @@ class KategoriController extends Controller
 
     public function getData(Request $request) {
         $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $data = Kategori::find($id);
-        return response()->json(array(
-            'msg'=> view('pegawai.kategoriEdit',compact('data'))->render()
-        ),200);
+        try {
+            $id = $request->get('id');
+            $data = Kategori::find($id);
+            return response()->json(array(
+                'msg'=> view('pegawai.kategoriEdit',compact('data'))->render()
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'msg'=> "gagal mengambil data brand, silahkan mencoba kembali"
+            ),200);
+        }
+        
     }
 
     public function deletData(Request $request) {
         $this->authorize('cekpegawai');
-
-        $id = $request->get('id');
-        $kategori = Kategori::find($id);
-        $kategori->delete();
-        return response()->json(array(
-            'status'=>'ok'
-        ),200);
+        try {
+            $id = $request->get('id');
+            $kategori = Kategori::find($id);
+            $kategori->delete();
+            return response()->json(array(
+                'status'=>'ok'
+            ),200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status'=>'error'
+            ),200);
+        }
+        
     }
 }
