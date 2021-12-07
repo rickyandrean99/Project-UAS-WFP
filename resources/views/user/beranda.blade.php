@@ -72,13 +72,13 @@
         <div class="h4 pop-semibold">Produk Teratas</div>
 
         <div class="row mt-5">
-            @foreach($produk as $p)
+            @foreach($produks as $p)
                 <div class="pe-4" style="width: 20%; ">
                     <a href="/produk/{{ $p->id }}" class="text-decoration-none">
                         <div class="card w-100 align-items-center" style="box-shadow: 2px 2px 7px rgba(0,0,0,0.2);">
                             <img src="{{ asset('images/produk/'.$p->foto) }}" alt="" class="w-50 mx-5 my-4">
-                            <div class="card-body m-0 px-3 py-4 text-center" style="height: 100px">
-                                <div class="card-title h6 pop-medium">{{ $p->nama }}</div>
+                            <div class="card-body m-0 px-3 py-4 text-center" style="height: 150px;">
+                                <div class="card-title h6 pop-medium" style="line-height: 1.6rem">{{ $p->nama }}</div>
                             </div>
                         </div>
                     </a>
