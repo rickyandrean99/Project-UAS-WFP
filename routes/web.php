@@ -51,24 +51,30 @@ Route::middleware(['auth'])->group(function(){
     });
 
     // Route khusus akun yang sudah login
-    Route::resource('transaksi','TransaksiController');
-    Route::resource('voucher','VoucherController');
-
+    // Bandingkan produk
     Route::get('/banding', 'ProdukController@bandingProduk');
-
-    Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
-    Route::post('/produk/wishlist', 'WishlistController@addOrRemove')->name('produk.wishlist');
     Route::post('/produk/banding/tipe', 'ProdukController@perbandinganTipe')->name('produk.produkberdasarkantipe');
     Route::post('/produk/banding/produk', 'ProdukController@perbandinganProduk')->name('produk.detailberdasarkanproduk');
 
+    // Wishlist produk
+    Route::get('/wishlist', 'WishlistController@index')->name('wishlist');
+    Route::post('/produk/wishlist', 'WishlistController@addOrRemove')->name('produk.wishlist');
+
+    // Keranjang produk
     Route::get('/keranjang', 'ProdukController@keranjang')->name("keranjang");
     Route::post('/keranjang/tambahhapus', 'ProdukController@tambahHapusKeranjang')->name("keranjang.tambahhapus");
     Route::post('/keranjang/ubah', 'ProdukController@ubahKeranjang')->name("keranjang.ubah");
 
-    Route::get('/checkout', 'TransaksiController@loadCheckout');
-    Route::post('/checkout/produk', 'TransaksiController@checkoutProduk')->name('checkout.produk');
-
+    // Voucher diskon
+    Route::resource('voucher','VoucherController');
     Route::post('/voucher/check', 'VoucherController@checkVoucher')->name('voucher.check');
+
+    // Transaksi/checkout produk
+    Route::resource('transaksi','TransaksiController');
+    Route::get('/checkout', 'TransaksiController@loadCheckout');
+
+    // Riwayat transaksi
+    Route::get('/riwayat', 'TransaksiController@riwayat')->name("riwayat");
 });
 
 // Authentication Routing

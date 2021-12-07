@@ -38,22 +38,39 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        // $keranjang = session()->get('keranjang');
+        // Cek diskon
+        $discount = 0;
+        if (session()->get('voucher') != null)
+            $discount = intval(session()->get('voucher')[1]);
 
-        // // $transaksi = new Transaksi();
-        // // $transaksi->tanggal = Carbon::now();
+        // Cek total setelah/tanpa diskon
+        $keranjang = session()->get('keranjang');
+        $subtotal = 0;
+        foreach($keranjang as $k) {
+            $subtotal += $k["harga"] * $k["kuantitas"];
+        }
+        $total = $subtotal * (100 - $discount) / 100;
         
-        // // foreach ($transaksi as $id => $value) {
-        // //     // $user->produks()->attach($id_produk);
-        // // }
-        // dd($keranjang);
+        // Save transaction to database
+        $transaksi = new Transaksi();
+        $transaksi->tanggal = Carbon::now();
+        $transaksi->status = false;
+        $transaksi->diskon = $discount;
+        $transaksi->total = $total;
+        $transaksi->users_id = Auth::user()->id;
+        $transaksi->save();
         
-        // // Set voucher and cart to null
-        // // $value = null;
-        // // session()->put('voucher', $value);
-        // // session()->put('keranjang', $value);
+        // Save transaction detail to database
+        foreach ($keranjang as $id => $value) {
+            $transaksi->produks()->attach($id, ['kuantitas' => $value["kuantitas"], 'harga' => $value["harga"]]);
+        }
+        
+        // Set voucher and cart to null
+        $value = null;
+        session()->put('voucher', $value);
+        session()->put('keranjang', $value);
 
-        // return redirect()->route('beranda');
+        return redirect()->route('beranda');
     }
 
     /**
@@ -146,41 +163,11 @@ class TransaksiController extends Controller
             return redirect()->back();
 
         return view("user.checkout");
-    } 
+    }
 
-    public function checkoutProduk(Request $request) {
-        // Cek diskon
-        $discount = 0;
-        if (session()->get('voucher') != null)
-            $discount = intval(session()->get('voucher')[1]);
-
-        // Cek total setelah/tanpa diskon
-        $keranjang = session()->get('keranjang');
-        $subtotal = 0;
-        foreach($keranjang as $k) {
-            $subtotal += $k["harga"] * $k["kuantitas"];
-        }
-        $total = $subtotal * (100 - $discount) / 100;
+    public function riwayat() {
+        $transaksi = Transaksi::where("users_id", Auth::user()->id)->get();
         
-        // Save transaction to database
-        $transaksi = new Transaksi();
-        $transaksi->tanggal = Carbon::now();
-        $transaksi->status = false;
-        $transaksi->diskon = $discount;
-        $transaksi->total = $total;
-        $transaksi->users_id = Auth::user()->id;
-        $transaksi->save();
-        
-        // Save transaction detail to database
-        foreach ($keranjang as $id => $value) {
-            $transaksi->produks()->attach($id, ['kuantitas' => $value["kuantitas"], 'harga' => $value["harga"]]);
-        }
-        
-        // Set voucher and cart to null
-        $value = null;
-        session()->put('voucher', $value);
-        session()->put('keranjang', $value);
-
-        return redirect()->route('beranda');
+        return view("user.riwayat", compact('transaksi'));
     }
 }
