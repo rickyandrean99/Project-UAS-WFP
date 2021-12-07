@@ -17,7 +17,15 @@
             <!-- Daftar produk di keranjang -->
             <div class="col-6 p-0 m-0">
                 <div class="row m-0 p-0">
+                    @php 
+                        $subtotal = 0;
+                    @endphp
+                    
                     @foreach(session('keranjang') as $id => $produk)
+                        @php
+                            $total = $produk['kuantitas'] * $produk['harga'];
+                            $subtotal += $total;
+                        @endphp
                         <div class="col-12 p-0 my-2">
                             <div class="w-100 row m-0 p-0 border">
                                 <div class="col-3 m-0 p-1">
@@ -26,7 +34,7 @@
                                 <div class="col-9 m-0 ps-4 d-flex flex-column justify-content-center">
                                     <div class="pop-bold">{{ $produk['nama'] }}</div>
                                     <div class="pop-medium my-2">Jumlah: {{ $produk['kuantitas'] }}</div>
-                                    <div class="pop-medium">Rp {{ number_format(($produk['kuantitas'] * $produk['harga']),2,',','.') }}</div>
+                                    <div class="pop-medium">Rp {{ number_format($total,2,',','.') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -44,20 +52,35 @@
 
                 <div class="fst-italic pop-regular small">*Kode voucher terdiri dari 10 karakter</div>
                 <div id="active-voucher">
-                    @if(session('voucher') != "" || session('voucher') != null)
+                    @if(session('voucher') != null)
                         <div class="alert alert-success mt-4 pop-medium h6" role="alert">
-                            Voucher {{ session('voucher') }} diaktifkan!
+                            Voucher {{ session('voucher')[0] }} diaktifkan!
                         </div>
                     @endif
                 </div>
                 
                 <div class="row m-0 mt-4 p-0 text-end">
                     <div class="col-8 mb-2 pop-medium">Subtotal&nbsp;&nbsp;&nbsp;&nbsp;:</div>
-                    <div class="col-4 mb-2 pop-semibold">Rp xxxxxxxxx</div>
+                    <div class="col-4 mb-2 pop-semibold" id="subtotal">
+                        Rp {{ number_format($subtotal,2,',','.') }}
+                    </div>
                     <div class="col-8 mb-2 pop-medium">Diskon&nbsp;&nbsp;&nbsp;&nbsp;:</div>
-                    <div class="col-4 mb-2 pop-semibold">Rp xxxxxxxxx</div>
+                    <div class="col-4 mb-2 pop-semibold" id="diskon">
+                        @if(session('voucher') != null)
+                            @php $diskon = $subtotal * intval(session('voucher')[1]) / 100; @endphp
+                            Rp {{ number_format($diskon,2,',','.') }}
+                        @else
+                            Rp 0,00
+                        @endif
+                    </div>
                     <div class="col-8 mb-2 pop-medium">Total&nbsp;&nbsp;&nbsp;&nbsp;:</div>
-                    <div class="col-4 mb-2 pop-semibold">Rp xxxxxxxxx</div>
+                    <div class="col-4 mb-2 pop-semibold" id="total">
+                        @if(session('voucher') != null)
+                            Rp {{ number_format(($subtotal-$diskon),2,',','.') }}
+                        @else
+                            Rp {{ number_format(($subtotal),2,',','.') }}
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,15 +116,29 @@
                     },
                     success: data => {
                         if (data.result == "sukses") {
+                            $('#modal-text').text("Voucher berhasil digunakan")
+
                             $('#active-voucher').html(`
                                 <div class="alert alert-success mt-4 pop-medium h6" role="alert">
                                     Voucher ${voucher} diaktifkan!
                                 </div>`
                             )
 
-                            $('#modal-text').text("Voucher berhasil digunakan")
+                            let subtotal = data.subtotal
+                            let diskon = subtotal * data.voucher[1] / 100 
+                            let total = subtotal - diskon
+
+                            $(`#diskon`).text(`Rp ${diskon.toLocaleString("id-ID")},00`)
+                            $(`#total`).text(`Rp ${total.toLocaleString("id-ID")},00`)
                         } else {
+                            let subtotal = data.subtotal
+                            let diskon = 0
+
+                            $(`#diskon`).text(`Rp ${diskon.toLocaleString("id-ID")},00`)
+                            $(`#total`).text(`Rp ${subtotal.toLocaleString("id-ID")},00`)
+
                             $('#modal-text').text("Voucher tidak valid!")
+                            $('#active-voucher').html("")
                         }
 
                         $('#modal-voucher').modal("show")

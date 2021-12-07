@@ -46,7 +46,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$brand->id}})" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$brand->id}})' href="#">Delete</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$brand->id}},"{{$brand->foto}}")' href="#">Delete</a></li>
                                             </ul>
                                         </div>  
                                     </td>
@@ -154,20 +154,21 @@
 
     
 
-        function deletes(id){
+        function deletes(id,foto){
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus brand ini?');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltBrand(`+id+`)'>Yes</button>`);
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-bs-dismiss="modal" onclick='dltBrand(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
-        function dltBrand(id){
+        function dltBrand(id,foto){
             $.ajax({
             type:'POST',
             url:'{{route("brand.dltBrand")}}',
             data:{
                 '_token': '<?php echo csrf_token() ?>',
-                'id': id
+                'id': id,
+                'foto': foto
             },
             success:function(data){
                 $('#mdl-body').html('');

@@ -155,20 +155,31 @@ class VoucherController extends Controller
 
     public function checkVoucher(Request $request) {
         $voucher = Voucher::where("kode", $request->get("voucher"))->get();
-
+        $subtotal = 0;
+        $keranjang = session()->get('keranjang');
+        foreach ($keranjang as $value) {
+            $subtotal += $value["harga"] * $value["kuantitas"];
+        }
+        
         if (count($voucher) > 0) {
-            session()->put('voucher', $voucher[0]->kode);
+            $voucher = [$voucher[0]->kode, $voucher[0]->discount];
+            session()->put('voucher', $voucher);
+
+            
 
             return response()->json(array(
-                'result' => "sukses"
+                'result' => "sukses",
+                'voucher' => $voucher,
+                'subtotal' => $subtotal
             ),200);
         }
 
-        // $vouc = null;
-        // session()->put('voucher', $vouc);
+        $voucher = null;
+        session()->put('voucher', $voucher);
 
         return response()->json(array(
-            'result' => "gagal"
+            'result' => "gagal",
+            'subtotal' => $subtotal
         ),200);
     }
 }

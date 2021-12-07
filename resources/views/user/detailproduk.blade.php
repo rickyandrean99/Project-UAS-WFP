@@ -49,9 +49,9 @@
 
                             $ubah_x = str_pad($angka_depan, $jumlah, 'X', STR_PAD_RIGHT);
                             $arr = array_map("strrev", array_reverse(str_split(strrev($ubah_x), 3)));
-                            $hasil = implode(',', $arr);
+                            $hasil = implode('.', $arr);
                         ?>
-                            Rp {{ $hasil }}.XX
+                            Rp {{ $hasil }},XX
                         
                     @endif
                 </div>

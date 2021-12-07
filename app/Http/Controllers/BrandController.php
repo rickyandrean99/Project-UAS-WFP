@@ -159,6 +159,10 @@ class BrandController extends Controller
         $this->authorize('cekpegawai');
         try {
             $id = $request->get('id');
+            $foto = $request->get('foto');
+            if($foto != ''){
+                File::delete(public_path('images/logo/'.$foto));
+            }
             $brand = Brand::find($id);
             $brand->delete();
             return response()->json(array(
