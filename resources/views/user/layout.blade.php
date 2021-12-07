@@ -38,6 +38,7 @@
                             </li>
                             @else
                             <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/login">Login</a></li>
+                            <li class="nav-item me-5 py-2"><a class="nav-link text-dark pop-medium" href="/register">Registrasi</a></li>
                             @endif
                         </ul> 
                     </div>

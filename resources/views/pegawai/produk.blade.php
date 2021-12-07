@@ -48,7 +48,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$p->id}})" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$p->id}})' href="#">Delete</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$p->id}},"{{$p->foto}}")' href="#">Delete</a></li>
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='detail({{$p->id}})' href="#">Detail</a></li>
                                             </ul>
                                         </div>  
@@ -187,16 +187,17 @@
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus produk ini??');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltProduk(`+id+`)'>Yes</button>`);
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltProduk(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
-        function dltProduk(id){
+        function dltProduk(id,foto){
             $.ajax({
             type:'POST',
             url:'{{route("produk.dltProduk")}}',
             data:{
                 '_token': '<?php echo csrf_token() ?>',
-                'id': id
+                'id': id,
+                'foto': foto
             },
             success:function(data){
                 $('#modal-dialog').removeClass('modal-lg');

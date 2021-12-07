@@ -213,6 +213,10 @@ class ProdukController extends Controller
         $this->authorize('cekpegawai');
         try {
             $id = $request->get('id');
+            $foto = $request->get('foto');
+            if($foto != ''){
+                File::delete(public_path('images/produk/'.$foto));
+            }
             $produk = Produk::find($id);
             $produk->delete();
             return response()->json(array(

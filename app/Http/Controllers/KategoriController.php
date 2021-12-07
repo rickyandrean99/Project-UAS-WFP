@@ -154,6 +154,10 @@ class KategoriController extends Controller
         $this->authorize('cekpegawai');
         try {
             $id = $request->get('id');
+            $foto = $request->get('foto');
+            if($foto != ""){
+                File::delete(public_path('images/'.$foto));
+            }
             $kategori = Kategori::find($id);
             $kategori->delete();
             return response()->json(array(

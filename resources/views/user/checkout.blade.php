@@ -82,6 +82,13 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="mt-4">
+                    <form action="{{ route('checkout.produk') }}" method="post">
+                        @csrf
+                        <button class="btn w-100 pop-medium text-white" type="submit" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);">Checkout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

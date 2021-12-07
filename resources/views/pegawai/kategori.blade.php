@@ -46,7 +46,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick="getData({{$kategori->id}})" href="#">Edit</a></li>
-                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$kategori->id}})' href="#">Delete</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalInfo" onclick='deletes({{$kategori->id}},"{{$kategori->foto}}")' href="#">Delete</a></li>
                                             </ul>
                                         </div>  
                                     </td>
@@ -153,20 +153,21 @@
 
         
 
-        function deletes(id){
+        function deletes(id,foto){
             $('#mdl-header').html('Pemberitahuan');
             $('#mdl-body').html('Apakah yakin menghapus katagori ini??');
             $('#mdl-footer').html(`<button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltKategori(`+id+`)'>Yes</button>`);
+                                <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modalInfo" data-dismiss="modal" onclick='dltKategori(`+id+`,"`+foto+`")'>Yes</button>`);
         }
 
-        function dltKategori(id){
+        function dltKategori(id,foto){
             $.ajax({
             type:'POST',
             url:'{{route("kategori.dltKategori")}}',
             data:{
                 '_token': '<?php echo csrf_token() ?>',
-                'id': id
+                'id': id,
+                'foto': foto
             },
             success:function(data){
                 $('#mdl-body').html('');

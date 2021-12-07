@@ -23,6 +23,8 @@
                                 <th>Id</th>
                                 <th>Member</th>
                                 <th>Tanggal</th>
+                                <th>Discount</th>
+                                <th>Total</th>
                                 <th>Detail</th>
                                 <th>Status</th>  
                             </tr>
@@ -33,6 +35,8 @@
                                     <td >{{$transaksi->id}}</td>
                                     <td>{{$transaksi->user->name}}</td>
                                     <td><?php echo date('d-m-Y', strtotime($transaksi->tanggal)) ?></td>
+                                    <td>{{$transaksi->diskon}}</td>
+                                    <td>{{$transaksi->total}}</td>
                                     <td><button class='btn btn-seccondary' onclick='detail({{$transaksi->id}})' data-bs-toggle="modal" data-bs-target="#modalInfo">Detail</button></td>
                                     <td id='td-confirm-{{$transaksi->id}}'>
                                         @if($transaksi->status == true)

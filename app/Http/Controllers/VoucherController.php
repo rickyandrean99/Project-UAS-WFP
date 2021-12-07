@@ -165,8 +165,6 @@ class VoucherController extends Controller
             $voucher = [$voucher[0]->kode, $voucher[0]->discount];
             session()->put('voucher', $voucher);
 
-            
-
             return response()->json(array(
                 'result' => "sukses",
                 'voucher' => $voucher,

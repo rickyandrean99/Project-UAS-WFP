@@ -77,7 +77,7 @@
                         @else
                             <a href="#" class="btn btn-primary p-3 border-0" id="btn-keranjang" style="background: linear-gradient(90.42deg, #42B549 -28.17%, #3BD744 50.91%, #4CEA56 114.5%);" onclick="keranjang('tambah')">
                                 <img src="{{ asset('images/cart.png') }}" alt="cart" style="width: 25px" class="me-2">
-                                <span id="status-keranjang" class="text-white">Masukkan keranjang</span>
+                                <span id="status-keranjang" class="text-white">Masukkan Keranjang</span>
                             </a>
                         @endif
                     @endif

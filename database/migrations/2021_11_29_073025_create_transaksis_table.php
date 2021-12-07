@@ -17,6 +17,8 @@ class CreateTransaksisTable extends Migration
             $table->id();
             $table->dateTime('tanggal');
             $table->boolean('status');
+            $table->integer('diskon');
+            $table->integer('total');
             $table->timestamps();
         });
     }

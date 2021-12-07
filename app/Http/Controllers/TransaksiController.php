@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaksi;
+use Carbon\Carbon;
+use Auth;
 
 class TransaksiController extends Controller
 {
@@ -36,7 +38,22 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $keranjang = session()->get('keranjang');
+
+        // // $transaksi = new Transaksi();
+        // // $transaksi->tanggal = Carbon::now();
+        
+        // // foreach ($transaksi as $id => $value) {
+        // //     // $user->produks()->attach($id_produk);
+        // // }
+        // dd($keranjang);
+        
+        // // Set voucher and cart to null
+        // // $value = null;
+        // // session()->put('voucher', $value);
+        // // session()->put('keranjang', $value);
+
+        // return redirect()->route('beranda');
     }
 
     /**
@@ -127,4 +144,30 @@ class TransaksiController extends Controller
     public function loadCheckout(Request $request) {
         return view("user.checkout");
     } 
+
+    public function checkoutProduk(Request $request) {
+        $keranjang = session()->get('keranjang');
+
+        if (session()->get('keranjang')) {
+            dd
+        }
+
+
+        // $transaksi = new Transaksi();
+        // $transaksi->tanggal = Carbon::now();
+        // $transaksi->status = false;
+        // $transaksi->users_id = Auth::user()->id;
+        // $transaksi->save();
+        
+        // foreach ($keranjang as $id => $value) {
+        //     $transaksi->produks()->attach($id, ['kuantitas' => $value["kuantitas"], 'harga' => $value["harga"]]);
+        // }
+        
+        // Set voucher and cart to null
+        // $value = null;
+        // session()->put('voucher', $value);
+        // session()->put('keranjang', $value);
+
+        return redirect()->route('beranda');
+    }
 }

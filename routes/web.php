@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/keranjang/ubah', 'ProdukController@ubahKeranjang')->name("keranjang.ubah");
 
     Route::get('/checkout', 'TransaksiController@loadCheckout');
+    Route::post('/checkout/produk', 'TransaksiController@checkoutProduk')->name('checkout.produk');
 
     Route::post('/voucher/check', 'VoucherController@checkVoucher')->name('voucher.check');
 });
