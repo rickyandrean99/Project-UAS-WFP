@@ -17,7 +17,7 @@
             {{session('error')}}
         </div>
     @endif
-        <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Brand</div>
+        <div class="h2 poppins-normal text-center custom-text-color font-weight-bold mb-5">Kategori</div>
         <div class="row">
             <div class="col-md-10">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Kategori</button>
